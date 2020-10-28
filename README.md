@@ -1,3 +1,12 @@
+<p align="center">
+<a href="https://hub.docker.com/r/frankierr/openpose_containers/builds">
+  <img alt="DockerHub hosted images" src="https://img.shields.io/docker/cloud/build/eaudeweb/scratch?label=Docker&style=flat" />
+</a>
+<a href="https://singularity-hub.org/collections/4910">
+  <img alt="SingularityHub hosted images" src="https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg" />
+</a>
+</p>
+
 This repository builds Singularity images for OpenPose. It is based on [this
 blog post by Peter
 Uhrig](peter-uhrig.de/openpose-with-nvcaffe-in-a-singularity-container-with-support-for-multiple-architectures/).

@@ -18,3 +18,5 @@ To rebuild Singularity files:
 2. Run `make`.
 3. Add and push both `singularity_template` and the generated files so they can
    be build on Singularity Hub
+
+For older versions see: https://github.com/frankier/gsoc2020/commits/master/openpose_singularity

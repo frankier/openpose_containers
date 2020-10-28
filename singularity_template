@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: frankierr/openpose_containers
+From: frankierr/openpose_containers:latest
 
 %files
     CMakeLists.patch

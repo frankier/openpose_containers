@@ -1,0 +1,104 @@
+Bootstrap: docker
+From: frankierr/openpose_containers
+
+%files
+    CMakeLists.patch
+    cudacap.cxx
+
+%post
+    # Get OpenPose
+    cd /opt && \
+        git clone \
+            https://github.com/CMU-Perceptual-Computing-Lab/openpose.git --branch v1.6.0 --single-branch && \
+        cp -R openpose openpose_cpu && \
+        cp -R openpose openpose_legacy_gpu
+
+    # Fix up stubs
+    ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so /usr/local/cuda/lib64/stubs/libnvidia-ml.so.1
+
+    # Build GPU + NVCaffe OpenPose
+    mkdir -p /opt/openpose/build && \
+    cd /opt/openpose/ && git apply /CMakeLists.patch
+    cd build && \
+        cmake \
+        -DGPU_MODE=CUDA \
+        -DBUILD_PYTHON=ON \
+        -DCMAKE_EXE_LINKER_FLAGS="-Wl,-rpath-link=/usr/local/cuda/lib64/stubs" \
+        -DDL_FRAMEWORK=NV_CAFFE \
+        -DCaffe_INCLUDE_DIRS=/usr/local/include/caffe \
+        -DCaffe_LIBS_RELEASE=/usr/local/lib/libcaffe-nv.so \
+        -DCaffe_LIBS=/usr/local/lib/libcaffe-nv.so \
+        -DBUILD_CAFFE=OFF \
+        -DCUDA_ARCH=All \
+        .. && \
+        make -j`nproc` && \
+        mv /opt/openpose/models /opt/openpose_models && \
+        rm -rf /opt/openpose/3rdparty /opt/openpose/.git
+
+    # Build CPU OpenPose
+    mkdir -p /opt/openpose_cpu/build && \
+        cd /opt/openpose_cpu/ && git apply /CMakeLists.patch &&
+        cd build &&
+        cmake \
+        -DGPU_MODE=CPU_ONLY \
+        -DBUILD_PYTHON=ON \
+	-DDOWNLOAD_BODY_25_MODEL=OFF \
+	-DDOWNLOAD_FACE_MODEL=OFF \
+	-DDOWNLOAD_HAND_MODEL=OFF \
+        .. && \
+        make -j`nproc` && \
+        rm -rf /opt/openpose_cpu/3rdparty /opt/openpose_cpu/.git
+
+    # Build legacy GPU OpenPose
+    mkdir -p /opt/openpose_legacy_gpu/build && \
+        cd /opt/openpose_legacy_gpu/ && git apply /CMakeLists.patch &&
+        cd build &&
+        cmake \
+        -DGPU_MODE=CUDA \
+        -DBUILD_PYTHON=ON \
+        -DCMAKE_EXE_LINKER_FLAGS="-Wl,-rpath-link=/usr/local/cuda/lib64/stubs" \
+        -DCUDA_ARCH=All \
+	-DDOWNLOAD_BODY_25_MODEL=OFF \
+	-DDOWNLOAD_FACE_MODEL=OFF \
+	-DDOWNLOAD_HAND_MODEL=OFF \
+        .. && \
+        make -j`nproc` && \
+        rm -rf /opt/openpose_legacy_gpu/3rdparty /opt/openpose_legacy_gpu/.git
+
+    # Build CUDA capability checker
+    g++ /cudacap.cxx \
+        -I/usr/local/cuda/include \
+	-o /cudacap /usr/local/cuda/lib64/libcudart.so && \
+    	rm /cudacap.cxx
+
+
+%environment
+    if [ -z "$LD_LIBRARY_PATH" ]; then
+        LD_LIBRARY_PATH="/.singularity.d/libs"
+    else
+        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/.singularity.d/libs"
+    fi
+
+    if nvidia-smi; then
+        if [ "$(/cudacap)" -ge "50" ]; then
+            echo "#### USING GPU with NVCaffe ####"
+            export OPENPOSE_SRC=/opt/openpose
+            export OPENPOSE_VAR=gpu
+        else
+            echo "#### USING Legacy GPU with Custom Caffe ####"
+            export OPENPOSE_SRC=/opt/openpose_legacy_gpu
+            export OPENPOSE_VAR=legacy_gpu
+        fi
+    else
+        echo "#### USING CPU ####"
+        export OPENPOSE_SRC=/opt/openpose_cpu
+        export OPENPOSE_VAR=cpu
+    fi
+    export OPENPOSE=$OPENPOSE_SRC/build
+    export OPENPOSE_BIN=$OPENPOSE/examples/openpose/openpose.bin
+    export PYTHONPATH="$OPENPOSE/python:$PYTHONPATH"
+    export OPENPOSE_MODELS=/opt/openpose_models
+
+
+%runscript
+    cd $OPENPOSE_SRC && exec $OPENPOSE_BIN "$@"

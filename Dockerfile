@@ -57,7 +57,7 @@ RUN export LC_ALL=C && \
         tee /etc/apt/trusted.gpg.d/kitware.gpg && \
     apt-add-repository -y 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
     apt-get update && \
-    apt-get -y --no-install-recommends install cmake \
+    apt-get -y --no-install-recommends install cmake & \
     # Clean
     apt-get clean
 

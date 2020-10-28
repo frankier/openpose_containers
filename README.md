@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://hub.docker.com/r/frankierr/openpose_containers/builds">
-  <img alt="DockerHub hosted images" src="https://img.shields.io/docker/cloud/build/eaudeweb/scratch?label=Docker&style=flat" />
+  <img alt="DockerHub hosted images" src="https://img.shields.io/docker/cloud/build/frankierr/openpose_containers?label=Docker&style=flat" />
 </a>
 <a href="https://singularity-hub.org/collections/4910">
   <img alt="SingularityHub hosted images" src="https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg" />

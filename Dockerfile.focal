@@ -40,10 +40,10 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         libcanberra-gtk-module \
 	\
 	libprotobuf-dev \
-	cmake && \
-    python3 -m pip install \
-        numpy \
-        opencv-python
+	cmake \
+	libopencv-dev \
+	python3-opencv
+	python3-numpy && \
 
 RUN apt-get install -y --no-install-recommends protobuf-compiler libturbojpeg0-dev
 RUN cd /opt/caffe && \

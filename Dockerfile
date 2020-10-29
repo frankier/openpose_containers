@@ -43,7 +43,7 @@ RUN export LC_ALL=C && \
         pkg-config \
         libssl-dev \
         libcanberra-gtk-module && \
-        python3 -m pip install \
+    python3 -m pip install \
         numpy \
         opencv-python && \
     # Up to date ffmpeg

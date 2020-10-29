@@ -67,7 +67,10 @@ RUN cd /opt && \
     unzip 3.4.0.zip && \
     cd opencv-3.4.0 && \
     mkdir -p build && cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/usr ../ && \
+    cmake \
+        -DWITH_FFMPEG=ON \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        ../ && \
     make -j4 && \
     make install && \
     cd ../.. && \

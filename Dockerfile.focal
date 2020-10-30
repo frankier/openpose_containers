@@ -41,7 +41,7 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         \
         libprotobuf-dev \
         protobuf-compiler \
-        libturbojpeg0-dev
+        libturbojpeg0-dev \
         cmake \
         libopencv-dev \
         python3-opencv \

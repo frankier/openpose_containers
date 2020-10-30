@@ -1,0 +1,33 @@
+Bootstrap: docker
+From: frankierr/openpose_containers:bionic_base
+
+# Get OpenPose
+RUN cd /opt && \
+    git clone \
+        $OPENPOSE_GIT --branch $OPENPOSE_BRANCH --single-branch && \
+    git apply $OP_PATCHES && \
+    git describe --always > .git-describe && \
+    rm -rf .git
+
+# Fix up stubs
+RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \
+    /usr/local/cuda/lib64/stubs/libnvidia-ml.so.1
+
+# Build GPU + NVCaffe OpenPose
+RUN mkdir -p /opt/openpose/build && \
+    cd /opt/openpose/ && git apply /CMakeLists.patch \
+    cd build && \
+        cmake \
+        -DGPU_MODE=CUDA \
+        -DBUILD_PYTHON=ON \
+        -DCMAKE_EXE_LINKER_FLAGS="-Wl,-rpath-link=/usr/local/cuda/lib64/stubs" \
+        -DDL_FRAMEWORK=NV_CAFFE \
+        -DCaffe_INCLUDE_DIRS=/usr/local/include/caffe \
+        -DCaffe_LIBS_RELEASE=/usr/local/lib/libcaffe-nv.so \
+        -DCaffe_LIBS=/usr/local/lib/libcaffe-nv.so \
+        -DBUILD_CAFFE=OFF \
+        -DCUDA_ARCH=All \
+        .. && \
+        make -j`nproc` && \
+        mv /opt/openpose/models /opt/openpose_models && \
+        rm -rf /opt/openpose/3rdparty

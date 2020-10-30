@@ -55,6 +55,7 @@ RUN cd /opt/caffe && \
       -DCMAKE_INSTALL_PREFIX:PATH=/usr/local \
       -DCMAKE_BUILD_TYPE="Release" \
       -DBLAS=atlas \
+      -Dpython_version=3 \
       -DUSE_NCCL=ON \
       -DUSE_CUDNN=ON \
       -DCPU_ONLY=OFF \

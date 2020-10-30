@@ -38,14 +38,15 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         pkg-config \
         libssl-dev \
         libcanberra-gtk-module \
-	\
-	libprotobuf-dev \
-	cmake \
-	libopencv-dev \
-	python3-opencv
-	python3-numpy && \
+        \
+        libprotobuf-dev \
+        protobuf-compiler \
+        libturbojpeg0-dev
+        cmake \
+        libopencv-dev \
+        python3-opencv \
+        python3-numpy
 
-RUN apt-get install -y --no-install-recommends protobuf-compiler libturbojpeg0-dev
 RUN cd /opt/caffe && \
     mkdir build && \
     cd build && \

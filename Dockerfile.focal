@@ -39,6 +39,7 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         libssl-dev \
         libcanberra-gtk-module \
         \
+        libatlas-base-dev \
         libprotobuf-dev \
         protobuf-compiler \
         libturbojpeg0-dev \

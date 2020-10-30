@@ -6,7 +6,7 @@ RUN rm -rf \
     /usr/local/cuda-10.2/NsightSystems-cli-2020.1.1 \
     /opt/nvidia
 
-# Packages
+# Distribution packages
 RUN export LC_ALL=C && \
     apt-get -y --no-install-recommends update && \
     apt-get -y --no-install-recommends upgrade && \
@@ -42,24 +42,51 @@ RUN export LC_ALL=C && \
         gfortran \
         pkg-config \
         libssl-dev \
-        libcanberra-gtk-module && \
-    python3 -m pip install \
-        numpy \
-        opencv-python && \
-    # Up to date ffmpeg
-    add-apt-repository -y ppa:jonathonf/ffmpeg-4 && \
+        libcanberra-gtk-module \
+        python3.7 \
+        python3-numpy
+
+# Up to date ffmpeg
+RUN add-apt-repository -y ppa:jonathonf/ffmpeg-4 && \
     apt-get -y --no-install-recommends update && \
-    apt-get -y --no-install-recommends install ffmpeg && \
-    # Up to date CMake (Ubuntu 18.04 includes 3.10 which is too old)
-    wget -O - \
+    apt-get -y --no-install-recommends install ffmpeg
+
+# Up to date CMake (Ubuntu 18.04 includes 3.10 which is too old)
+RUN wget -O - \
         https://apt.kitware.com/keys/kitware-archive-latest.asc | \
         gpg --dearmor - | \
         tee /etc/apt/trusted.gpg.d/kitware.gpg && \
     apt-add-repository -y 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
     apt-get update && \
-    apt-get -y --no-install-recommends install cmake & \
-    # Clean
-    apt-get clean
+    apt-get -y --no-install-recommends install cmake
+
+# Install OpenCV
+RUN cd /opt && \
+    wget -O opencv3.4.8.zip https://github.com/opencv/opencv/archive/3.4.8.zip && \
+    wget -O opencv-contrib3.4.8.zip https://github.com/opencv/opencv_contrib/archive/3.4.8.zip && \
+    unzip opencv3.4.8.zip && \
+    unzip opencv-contrib3.4.8.zip && \
+    cd opencv-3.4.8/ && \
+    mkdir build && cd build && \
+    cmake -D CMAKE_BUILD_TYPE=RELEASE \
+        -D CMAKE_INSTALL_PREFIX=/usr/local \
+        -D WITH_CUDA=ON \
+        -D ENABLE_FAST_MATH=1 \
+        -D CUDA_FAST_MATH=1 \
+        -D WITH_CUBLAS=1 \
+        -D WITH_FFMPEG=ON \
+        -D INSTALL_PYTHON_EXAMPLES=ON \
+        -D OPENCV_EXTRA_MODULES_PATH=/opt/opencv_contrib-3.4.8/modules \
+        -D OPENCV_ENABLE_NONFREE=ON \
+        -D BUILD_EXAMPLES=ON .. && \
+    make -j`nproc` && \
+    make install && \
+    cd /opt && \
+    rm opencv3.4.8.zip && \
+    rm opencv-contrib3.4.8.zip
+
+# Clean
+RUN apt-get clean
 
 # Relink OpenCV against ffmpeg
 RUN cd /opt && \

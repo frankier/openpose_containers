@@ -1,0 +1,17 @@
+mkdir -p /opt/openpose/build && \
+    cd /opt/openpose/ && git apply /CMakeLists.patch \
+    cd build && \
+        cmake \
+        -DGPU_MODE=CUDA \
+        -DBUILD_PYTHON=ON \
+        -DCMAKE_EXE_LINKER_FLAGS="-Wl,-rpath-link=/usr/local/cuda/lib64/stubs" \
+        -DDL_FRAMEWORK=NV_CAFFE \
+        -DCaffe_INCLUDE_DIRS=/usr/local/include/caffe \
+        -DCaffe_LIBS_RELEASE=/usr/local/lib/libcaffe-nv.so \
+        -DCaffe_LIBS=/usr/local/lib/libcaffe-nv.so \
+        -DBUILD_CAFFE=OFF \
+        -DCUDA_ARCH=All \
+        .. && \
+        make -j`nproc` && \
+        mv /opt/openpose/models /opt/openpose_models && \
+        rm -rf /opt/openpose/3rdparty

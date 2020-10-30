@@ -1,0 +1,6 @@
+cd /opt && \
+    git clone \
+        $OPENPOSE_GIT --branch $OPENPOSE_BRANCH --single-branch && \
+    git apply $OP_PATCHES && \
+    git describe --always > .git-describe && \
+    rm -rf .git

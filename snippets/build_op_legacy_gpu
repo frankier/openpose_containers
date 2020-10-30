@@ -1,0 +1,14 @@
+mkdir -p /opt/openpose_legacy_gpu/build && \
+    cd /opt/openpose_legacy_gpu/ &&
+    cd build &&
+        cmake \
+        -DGPU_MODE=CUDA \
+        -DBUILD_PYTHON=ON \
+        -DCMAKE_EXE_LINKER_FLAGS="-Wl,-rpath-link=/usr/local/cuda/lib64/stubs" \
+        -DCUDA_ARCH=All \
+	-DDOWNLOAD_BODY_25_MODEL=OFF \
+	-DDOWNLOAD_FACE_MODEL=OFF \
+	-DDOWNLOAD_HAND_MODEL=OFF \
+        .. && \
+        make -j`nproc` && \
+        rm -rf /opt/openpose_legacy_gpu/3rdparty

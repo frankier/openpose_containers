@@ -48,7 +48,11 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         python3-opencv \
         python3-numpy
 
+COPY caffe-cuda11.patch /
+
 RUN cd /opt/caffe && \
+    git apply /caffe-cuda11.patch && \
+    rm /caffe-cuda11.patch && \
     mkdir build && \
     cd build && \
     cmake \
@@ -64,3 +68,4 @@ RUN cd /opt/caffe && \
       make clean && \
       cd .. && \
       rm -rf build
+

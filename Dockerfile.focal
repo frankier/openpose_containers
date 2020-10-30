@@ -53,8 +53,11 @@ RUN cd /opt/caffe && \
     cd build && \
     cmake \
       -DCMAKE_INSTALL_PREFIX:PATH=/usr/local \
+      -DCMAKE_BUILD_TYPE="Release" \
+      -DBLAS=atlas \
       -DUSE_NCCL=ON \
       -DUSE_CUDNN=ON \
+      -DCPU_ONLY=OFF \
       .. && \
     make -j"$(nproc)" install && \
       make clean && \

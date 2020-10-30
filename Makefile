@@ -1,9 +1,7 @@
-SHELL := /bin/bash
-
-export BUILD_GPU=$(< snippets/build_op_gpu)
-export BUILD_CPU=$(< snippets/build_op_cpu)
-export BUILD_LEGACY_GPU=$(< snippets/build_op_legacy_gpu)
-export GET_OPENPOSE=$(< snippets/get_openpose)
+export BUILD_GPU=$(file < snippets/build_op_gpu)
+export BUILD_CPU=$(file < snippets/build_op_cpu)
+export BUILD_LEGACY_GPU=$(file < snippets/build_op_legacy_gpu)
+export GET_OPENPOSE=$(file < snippets/get_openpose)
 export OPENPOSE_GIT=https://github.com/CMU-Perceptual-Computing-Lab/openpose.git
 export OPENPOSE_BRANCH=master
 
@@ -49,17 +47,21 @@ focal/Dockerfile.multi: multi_template
 	  envsubst > $@
 
 bionic/Singularity.nvcaffe: singularity_template
+	cat $< | \
 	  TAG=bionic_nvcaffe \
 	  envsubst '$$TAG' > $@
 
 bionic/Singularity.multi: singularity_template
+	cat $< | \
 	  TAG=bionic_multi \
 	  envsubst '$$TAG' > $@
 
 focal/Singularity.nvcaffe: singularity_template
+	cat $< | \
 	  TAG=focal_nvcaffe \
 	  envsubst '$$TAG' > $@
 
 focal/Singularity.multi: singularity_template
+	cat $< | \
 	  TAG=focal_multi \
 	  envsubst '$$TAG' > $@

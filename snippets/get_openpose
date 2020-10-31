@@ -1,6 +1,6 @@
 cd /opt && \
     git clone \
-        $OPENPOSE_GIT --branch $OPENPOSE_BRANCH --single-branch && \
-    git apply $OP_PATCHES && \
+      https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
+      --branch master --single-branch && \
     git describe --always > .git-describe && \
     rm -rf .git

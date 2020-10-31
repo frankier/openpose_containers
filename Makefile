@@ -4,6 +4,7 @@ export BUILD_LEGACY_GPU=$(file < snippets/build_op_legacy_gpu)
 export GET_OPENPOSE=$(file < snippets/get_openpose)
 export OPENPOSE_GIT=https://github.com/CMU-Perceptual-Computing-Lab/openpose.git
 export OPENPOSE_BRANCH=master
+export OP_PATCHES="CMakeLists.patch"
 
 all: \
 	bionic/Dockerfile.nvcaffe \
@@ -26,24 +27,26 @@ clean:
 	  focal/Singularity.nvcaffe \
 	  focal/Singularity.multi
 
-bionic/Dockerfile.nvcaffe: nvcaffe_template
+bionic/Dockerfile.nvcaffe: nvcaffe_template snippets/*
 	cat $< | \
 	  TAG=bionic_base \
 	  envsubst > $@
 
-bionic/Dockerfile.multi: multi_template
+bionic/Dockerfile.multi: multi_template snippets/*
 	cat $< | \
 	  TAG=bionic_base \
 	  envsubst > $@
 
-focal/Dockerfile.nvcaffe: nvcaffe_template
+focal/Dockerfile.nvcaffe: nvcaffe_template snippets/*
 	cat $< | \
 	  TAG=focal_base \
+	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch" \
 	  envsubst > $@
 
-focal/Dockerfile.multi: multi_template
+focal/Dockerfile.multi: multi_template snippets/*
 	cat $< | \
 	  TAG=focal_base \
+	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch" \
 	  envsubst > $@
 
 bionic/Singularity.nvcaffe: singularity_template

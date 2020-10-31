@@ -3,6 +3,9 @@ FROM frankierr/openpose_containers:$TAG
 # Get OpenPose
 RUN $GET_OPENPOSE
 
+# Apply patches
+RUN cd /opt/openpose && git apply $OP_PATCHES
+
 # Fix up stubs
 RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \
     /usr/local/cuda/lib64/stubs/libnvidia-ml.so.1

@@ -3,10 +3,13 @@ FROM frankierr/openpose_containers:focal_base
 # Get OpenPose
 RUN cd /opt && \
     git clone \
-        $OPENPOSE_GIT --branch $OPENPOSE_BRANCH --single-branch && \
-    git apply $OP_PATCHES && \
+      https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
+      --branch master --single-branch && \
     git describe --always > .git-describe && \
     rm -rf .git
+
+# Apply patches
+RUN cd /opt/openpose && git apply CMakeLists.patch rm-compute-30.patch
 
 # Fix up stubs
 RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \

@@ -14,13 +14,13 @@ It currently has two bases, which are in turn based upon:
 
  1. `bionic`: Based upon the `nvcr.io/nvidia/caffe:20.03-py3` Ubuntu 18.04 LTS (bionic) image provided by NVidia. [More info about the base is available from NVidia.](https://docs.nvidia.com/deeplearning/frameworks/caffe-release-notes/rel_20-03.html#rel_20-03) It contains dependencies of OpenPose including NVCaffe and OpenCV. It has been upgraded with a newer versions of some packages and otherwise tweaked to make a viable OpenPose build environment. It has the following versions:
   * CUDA 10.2
-  * Python 3.7
-  * OpenCV 3.4.1
+  * Python 3.7 (upgraded version from universe)
+  * OpenCV 3.4.1 (upgrade version from PPA)
  2. `focal`: Based upon the `nvidia/cuda:11.1-devel-ubuntu20.04` image. It
     compiles NVCaffe with patches to make it compile in this newer environment. It has the following versions:
   * CUDA 11.1
-  * Python 3.??
-  * OpenCV 4.??
+  * Python 3.8 (default)
+  * OpenCV 4.2.0 (default)
 
 Upon these bases OpenPose is built either against NVCaffe or else multiple
 versions are compiled with the following configurations:

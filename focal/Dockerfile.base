@@ -1,7 +1,5 @@
 FROM nvidia/cuda:11.1-devel-ubuntu20.04
 
-COPY --from=nvcr.io/nvidia/caffe:20.03-py3 /opt/caffe /opt/caffe
-
 RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
     apt-get -y --no-install-recommends update && \
     apt-get -y --no-install-recommends upgrade && \
@@ -47,6 +45,12 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         libopencv-dev \
         python3-opencv \
         python3-numpy
+
+RUN git clone \
+    -–depth 1 \
+    --branch focal-cuda11 \
+    https://github.com/frankier/caffe.git \
+    /opt/caffe
 
 COPY caffe-cuda11.patch /
 

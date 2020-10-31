@@ -63,7 +63,9 @@ RUN wget -O - \
 # Install OpenCV
 RUN add-apt-repository -y ppa:timsc/opencv-3.4 && \
     apt-get -y --no-install-recommends update && \
-    apt-get -y --no-install-recommends install libopencv-dev
+    apt-get -y --no-install-recommends install \
+      libopencv-dev \
+      python3-opencv
 
 # Clean
 RUN apt-get clean

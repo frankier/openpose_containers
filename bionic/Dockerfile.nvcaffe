@@ -10,7 +10,11 @@ RUN cd /opt && \
     rm -rf .git
 
 # Apply patches
-RUN cd /opt/openpose && git apply "CMakeLists.patch"
+COPY CMakeLists.patch /opt/openpose
+
+RUN cd /opt/openpose && \
+  git apply CMakeLists.patch && \
+  rm CMakeLists.patch
 
 # Fix up stubs
 RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \

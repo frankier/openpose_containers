@@ -4,7 +4,11 @@ FROM frankierr/openpose_containers:$TAG
 RUN $GET_OPENPOSE
 
 # Apply patches
-RUN cd /opt/openpose && git apply $OP_PATCHES
+COPY $OP_PATCHES /opt/openpose
+
+RUN cd /opt/openpose && \
+  git apply $OP_PATCHES && \
+  rm $OP_PATCHES
 
 # Copy out other versions
 RUN cp -R /opt/openpose /opt/openpose_cpu && \

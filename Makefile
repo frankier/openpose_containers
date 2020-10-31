@@ -4,7 +4,7 @@ export BUILD_LEGACY_GPU=$(file < snippets/build_op_legacy_gpu)
 export GET_OPENPOSE=$(file < snippets/get_openpose)
 export OPENPOSE_GIT=https://github.com/CMU-Perceptual-Computing-Lab/openpose.git
 export OPENPOSE_BRANCH=master
-export OP_PATCHES="CMakeLists.patch"
+export OP_PATCHES=CMakeLists.patch
 
 all: \
 	bionic/Dockerfile.nvcaffe \

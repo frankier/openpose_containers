@@ -47,7 +47,7 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         python3-numpy
 
 RUN git clone \
-    -–depth 1 \
+    --depth 1 \
     --branch focal-cuda11 \
     https://github.com/frankier/caffe.git \
     /opt/caffe

@@ -5,6 +5,7 @@ RUN cd /opt && \
     git clone \
       https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
       --branch master --single-branch && \
+    cd openpose && \
     git describe --always > .git-describe && \
     rm -rf .git
 

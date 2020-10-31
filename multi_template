@@ -1,5 +1,4 @@
-Bootstrap: docker
-From: frankierr/openpose_containers:$TAG
+FROM frankierr/openpose_containers:$TAG
 
 # Get OpenPose
 RUN $GET_OPENPOSE

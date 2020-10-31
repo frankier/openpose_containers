@@ -1,5 +1,4 @@
-Bootstrap: docker
-From: frankierr/openpose_containers:bionic_base
+FROM frankierr/openpose_containers:bionic_base
 
 # Get OpenPose
 RUN cd /opt && \

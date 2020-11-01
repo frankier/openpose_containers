@@ -1,0 +1,11 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6d853c94..cc744bbb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,3 +1,6 @@
++SET(PYTHON_EXECUTABLE /usr/bin/python3.7)
++SET(PYTHON_LIBRARY /usr/lib/x86_64-linux-gnu/libpython3.7m.so)
++
+ ### VERSION INFO
+ set(OpenPose_VERSION_MAJOR 1)
+ set(OpenPose_VERSION_MINOR 6)

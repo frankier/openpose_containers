@@ -5,6 +5,7 @@ RUN cd /opt && \
     git clone \
       https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
       --branch master --single-branch && \
+    git submodule update --recursive --remote && \
     cd openpose && \
     git describe --always > .git-describe
 

@@ -47,8 +47,6 @@ RUN export LC_ALL=C && \
         libssl-dev \
         libcanberra-gtk-module
 
-RUN ln -sf /usr/bin/python3.7 /usr/bin/python3
-
 # Up to date ffmpeg
 RUN add-apt-repository -y ppa:jonathonf/ffmpeg-4 && \
     apt-get -y --no-install-recommends update && \
@@ -73,6 +71,7 @@ RUN cd /opt && \
     mkdir build && cd build && \
     cmake -D CMAKE_BUILD_TYPE=RELEASE \
         -D CMAKE_INSTALL_PREFIX=/usr/local \
+        -D PYTHON_DEFAULT_EXECUTABLE=/usr/bin/python3.7 \
         -D WITH_CUDA=ON \
         -D ENABLE_FAST_MATH=1 \
         -D CUDA_FAST_MATH=1 \

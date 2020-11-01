@@ -17,7 +17,7 @@ all: \
 	focal/Singularity.multi
 
 clean:
-	rm \
+	rm -f \
 	  bionic/CMakeLists.patch \
 	  focal/CMakeLists.patch \
 	  focal/rm-compute-30.patch \

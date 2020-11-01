@@ -10,7 +10,7 @@ RUN cd /opt && \
     rm -rf .git
 
 # Apply patches
-COPY CMakeLists.patch rm-compute-30.patch /opt/openpose
+COPY CMakeLists.patch rm-compute-30.patch /opt/openpose/
 
 RUN cd /opt/openpose && \
   git apply CMakeLists.patch rm-compute-30.patch && \

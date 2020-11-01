@@ -1,0 +1,107 @@
+From 5b5d1f6ac83af5da2ce03d4a17812c69958104d7 Mon Sep 17 00:00:00 2001
+From: ambersun1234 <ambersun1019.shawn@gmail.com>
+Date: Sun, 1 Nov 2020 00:27:17 +0800
+Subject: [PATCH] Fix cudnn version not found error
+
+---
+ cmake/Cuda.cmake              | 23 ++++++++++++++++++++---
+ cmake/Modules/FindCuDNN.cmake | 29 +++++++++++++++++++++++++----
+ 2 files changed, 45 insertions(+), 7 deletions(-)
+
+diff --git a/cmake/Cuda.cmake b/cmake/Cuda.cmake
+index acd193a57..6d3fa1346 100644
+--- a/cmake/Cuda.cmake
++++ b/cmake/Cuda.cmake
+@@ -235,6 +235,7 @@ function(detect_cuDNN)
+     set(CUDNN_FOUND TRUE PARENT_SCOPE)
+ 
+     file(READ ${CUDNN_INCLUDE}/cudnn.h CUDNN_VERSION_FILE_CONTENTS)
++    file(READ ${CUDNN_INCLUDE}/cudnn_version.h CUDNN_VERSION_FILE_CONTENTS2)
+ 
+     # cuDNN v3 and beyond
+     string(REGEX MATCH "define CUDNN_MAJOR * +([0-9]+)"
+@@ -251,9 +252,25 @@ function(detect_cuDNN)
+            CUDNN_VERSION_PATCH "${CUDNN_VERSION_PATCH}")
+ 
+     if (NOT CUDNN_VERSION_MAJOR)
+-      set(CUDNN_VERSION "???")
+-    else ()
+-      set(CUDNN_VERSION "${CUDNN_VERSION_MAJOR}.${CUDNN_VERSION_MINOR}.${CUDNN_VERSION_PATCH}")
++		# cuDNN v3 and beyond
++    	string(REGEX MATCH "define CUDNN_MAJOR * +([0-9]+)"
++    	       CUDNN_VERSION_MAJOR "${CUDNN_VERSION_FILE_CONTENTS2}")
++    	string(REGEX REPLACE "define CUDNN_MAJOR * +([0-9]+)" "\\1"
++    	       CUDNN_VERSION_MAJOR "${CUDNN_VERSION_MAJOR}")
++    	string(REGEX MATCH "define CUDNN_MINOR * +([0-9]+)"
++    	       CUDNN_VERSION_MINOR "${CUDNN_VERSION_FILE_CONTENTS2}")
++    	string(REGEX REPLACE "define CUDNN_MINOR * +([0-9]+)" "\\1"
++    	       CUDNN_VERSION_MINOR "${CUDNN_VERSION_MINOR}")
++    	string(REGEX MATCH "define CUDNN_PATCHLEVEL * +([0-9]+)"
++    	       CUDNN_VERSION_PATCH "${CUDNN_VERSION_FILE_CONTENTS2}")
++    	string(REGEX REPLACE "define CUDNN_PATCHLEVEL * +([0-9]+)" "\\1"
++    	       CUDNN_VERSION_PATCH "${CUDNN_VERSION_PATCH}")
++
++    	if (NOT CUDNN_VERSION_MAJOR)
++      		set(CUDNN_VERSION "???")
++	    else ()
++   		   set(CUDNN_VERSION "${CUDNN_VERSION_MAJOR}.${CUDNN_VERSION_MINOR}.${CUDNN_VERSION_PATCH}")
++		endif()
+     endif ()
+ 
+     message(STATUS "Found cuDNN: ver. ${CUDNN_VERSION} found (include: ${CUDNN_INCLUDE}, library: ${CUDNN_LIBRARY})")
+diff --git a/cmake/Modules/FindCuDNN.cmake b/cmake/Modules/FindCuDNN.cmake
+index 82ee365a6..be67e59ce 100644
+--- a/cmake/Modules/FindCuDNN.cmake
++++ b/cmake/Modules/FindCuDNN.cmake
+@@ -2,9 +2,13 @@ set(CUDNN_ROOT "" CACHE PATH "CUDNN root folder")
+ set(CUDNN_LIB_NAME "libcudnn.so")
+ 
+ find_path(CUDNN_INCLUDE cudnn.h
+-    PATHS ${CUDNN_ROOT} $ENV{CUDNN_ROOT} ${CUDA_TOOLKIT_INCLUDE}
++    PATHS ${CUDNN_ROOT} $ENV{CUDNN_ROOT} ${CUDA_TOOLKIT_INCLUDE} /usr/local/cuda/include
+     DOC "Path to cuDNN include directory." )
+ 
++find_library(CUDNN_LIBRARY NAMES ${CUDNN_LIB_NAME}
++    PATHS ${CUDNN_ROOT} $ENV{CUDNN_ROOT} ${CUDNN_INCLUDE} ${__libpath_hist} ${__libpath_hist}/../lib /usr/local/cuda/lib64
++    DOC "Path to cuDNN library.")
++
+ get_filename_component(__libpath_hist ${CUDA_CUDART_LIBRARY} PATH)
+ find_library(CUDNN_LIBRARY NAMES ${CUDNN_LIB_NAME}
+     PATHS ${CUDNN_ROOT} $ENV{CUDNN_ROOT} ${CUDNN_INCLUDE} ${__libpath_hist} ${__libpath_hist}/../lib
+@@ -15,6 +19,7 @@ if(CUDNN_INCLUDE AND CUDNN_LIBRARY)
+     set(CUDNN_FOUND TRUE)
+ 
+     file(READ ${CUDNN_INCLUDE}/cudnn.h CUDNN_VERSION_FILE_CONTENTS)
++    file(READ ${CUDNN_INCLUDE}/cudnn_version.h CUDNN_VERSION_FILE_CONTENTS2)
+ 
+     # cuDNN v3 and beyond
+     string(REGEX MATCH "define CUDNN_MAJOR * +([0-9]+)"
+@@ -31,9 +36,25 @@ if(CUDNN_INCLUDE AND CUDNN_LIBRARY)
+            CUDNN_VERSION_PATCH "${CUDNN_VERSION_PATCH}")
+ 
+     if (NOT CUDNN_VERSION_MAJOR)
+-      set(CUDNN_VERSION "???")
+-    else ()
+-      set(CUDNN_VERSION "${CUDNN_VERSION_MAJOR}.${CUDNN_VERSION_MINOR}.${CUDNN_VERSION_PATCH}")
++		# cuDNN v3 and beyond
++    	string(REGEX MATCH "define CUDNN_MAJOR * +([0-9]+)"
++    	       CUDNN_VERSION_MAJOR "${CUDNN_VERSION_FILE_CONTENTS2}")
++    	string(REGEX REPLACE "define CUDNN_MAJOR * +([0-9]+)" "\\1"
++    	       CUDNN_VERSION_MAJOR "${CUDNN_VERSION_MAJOR}")
++    	string(REGEX MATCH "define CUDNN_MINOR * +([0-9]+)"
++    	       CUDNN_VERSION_MINOR "${CUDNN_VERSION_FILE_CONTENTS2}")
++    	string(REGEX REPLACE "define CUDNN_MINOR * +([0-9]+)" "\\1"
++    	       CUDNN_VERSION_MINOR "${CUDNN_VERSION_MINOR}")
++    	string(REGEX MATCH "define CUDNN_PATCHLEVEL * +([0-9]+)"
++    	       CUDNN_VERSION_PATCH "${CUDNN_VERSION_FILE_CONTENTS2}")
++    	string(REGEX REPLACE "define CUDNN_PATCHLEVEL * +([0-9]+)" "\\1"
++    	       CUDNN_VERSION_PATCH "${CUDNN_VERSION_PATCH}")
++
++    	if (NOT CUDNN_VERSION_MAJOR)
++      		set(CUDNN_VERSION "???")
++		else()
++      		set(CUDNN_VERSION "${CUDNN_VERSION_MAJOR}.${CUDNN_VERSION_MINOR}.${CUDNN_VERSION_PATCH}")
++		endif()
+     endif()
+ 
+     message(STATUS "Found cuDNN: ver. ${CUDNN_VERSION} found (include: ${CUDNN_INCLUDE}, library: ${CUDNN_LIBRARY})")

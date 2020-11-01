@@ -22,7 +22,7 @@ RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \
 
 # Build GPU + NVCaffe OpenPose
 RUN mkdir -p /opt/openpose/build && \
-    cd /opt/openpose/ && git apply /CMakeLists.patch \
+    cd /opt/openpose/ && \
     cd build && \
         cmake \
         -DGPU_MODE=CUDA \

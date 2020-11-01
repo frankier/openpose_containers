@@ -26,7 +26,7 @@ RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \
 
 # Build GPU + NVCaffe OpenPose
 RUN mkdir -p /opt/openpose/build && \
-    cd /opt/openpose/ && git apply /CMakeLists.patch \
+    cd /opt/openpose/ && \
     cd build && \
         cmake \
         -DGPU_MODE=CUDA \
@@ -59,8 +59,8 @@ RUN mkdir -p /opt/openpose_cpu/build && \
 
 # Build legacy GPU OpenPose
 RUN mkdir -p /opt/openpose_legacy_gpu/build && \
-    cd /opt/openpose_legacy_gpu/ &&
-    cd build &&
+    cd /opt/openpose_legacy_gpu/ && \
+    cd build && \
         cmake \
         -DGPU_MODE=CUDA \
         -DBUILD_PYTHON=ON \
@@ -72,3 +72,11 @@ RUN mkdir -p /opt/openpose_legacy_gpu/build && \
         .. && \
         make -j`nproc` && \
         rm -rf /opt/openpose_legacy_gpu/3rdparty
+
+# Reduce size of redundant files
+RUN apt-get install rdfind && \
+    rdfind -makehardlinks true \
+    /opt/openpose \
+    /opt/openpose_cpu \
+    /opt/openpose_legacy_gpu && \
+    apt-get remove rdfind

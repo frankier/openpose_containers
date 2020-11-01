@@ -1,6 +1,6 @@
 mkdir -p /opt/openpose_legacy_gpu/build && \
-    cd /opt/openpose_legacy_gpu/ &&
-    cd build &&
+    cd /opt/openpose_legacy_gpu/ && \
+    cd build && \
         cmake \
         -DGPU_MODE=CUDA \
         -DBUILD_PYTHON=ON \

@@ -21,6 +21,7 @@ clean:
 	  bionic/CMakeLists.patch \
 	  focal/CMakeLists.patch \
 	  focal/rm-compute-30.patch \
+	  focal/cudnn8.patch \
 	  bionic/Dockerfile.nvcaffe \
 	  bionic/Dockerfile.multi \
 	  focal/Dockerfile.nvcaffe \
@@ -39,6 +40,9 @@ focal/CMakeLists.patch: patches/CMakeLists.patch
 focal/rm-compute-30.patch: patches/rm-compute-30.patch
 	cp $< $@
 
+focal/cudnn8.patch: patches/cudnn8.patch
+	cp $< $@
+
 bionic/Dockerfile.nvcaffe: nvcaffe_template bionic/CMakeLists.patch snippets/*
 	cat $< | \
 	  TAG=bionic_base \
@@ -49,16 +53,16 @@ bionic/Dockerfile.multi: multi_template bionic/CMakeLists.patch snippets/*
 	  TAG=bionic_base \
 	  envsubst > $@
 
-focal/Dockerfile.nvcaffe: nvcaffe_template focal/CMakeLists.patch focal/rm-compute-30.patch snippets/*
+focal/Dockerfile.nvcaffe: nvcaffe_template focal/CMakeLists.patch focal/rm-compute-30.patch focal/cudnn8.patch snippets/*
 	cat $< | \
 	  TAG=focal_base \
-	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch" \
+	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch cudnn8.patch" \
 	  envsubst > $@
 
-focal/Dockerfile.multi: multi_template focal/CMakeLists.patch focal/rm-compute-30.patch snippets/*
+focal/Dockerfile.multi: multi_template focal/CMakeLists.patch focal/rm-compute-30.patch focal/cudnn8.patch snippets/*
 	cat $< | \
 	  TAG=focal_base \
-	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch" \
+	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch cudnn8.patch" \
 	  envsubst > $@
 
 bionic/Singularity.nvcaffe: singularity_template

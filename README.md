@@ -10,7 +10,7 @@
 This repository builds Docker and Singularity images for OpenPose compiled with
 NVCaffe.
 
-It currently has two bases, which are in turn based upon:
+It currently has two bases:
 
  1. `bionic`: Based upon the `nvcr.io/nvidia/caffe:20.03-py3` Ubuntu 18.04 LTS (bionic) image provided by NVidia. [More info about the base is available from NVidia.](https://docs.nvidia.com/deeplearning/frameworks/caffe-release-notes/rel_20-03.html#rel_20-03) It contains dependencies of OpenPose including NVCaffe and OpenCV. It has been upgraded with a newer versions of some packages and otherwise tweaked to make a viable OpenPose build environment. It has the following versions:
   * CUDA 10.2

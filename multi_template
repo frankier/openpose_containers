@@ -28,9 +28,10 @@ RUN $BUILD_CPU
 RUN $BUILD_LEGACY_GPU
 
 # Reduce size of redundant files
-RUN apt-get install rdfind && \
+RUN apt-get install -y --no-install-recommends rdfind && \
     rdfind -makehardlinks true \
     /opt/openpose \
     /opt/openpose_cpu \
     /opt/openpose_legacy_gpu && \
-    apt-get remove rdfind
+    apt-get remove rdfind && \
+    apt-get autoremove

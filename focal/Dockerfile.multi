@@ -74,9 +74,10 @@ RUN mkdir -p /opt/openpose_legacy_gpu/build && \
         rm -rf 3rdparty .git
 
 # Reduce size of redundant files
-RUN apt-get install rdfind && \
+RUN apt-get install -y --no-install-recommends rdfind && \
     rdfind -makehardlinks true \
     /opt/openpose \
     /opt/openpose_cpu \
     /opt/openpose_legacy_gpu && \
-    apt-get remove rdfind
+    apt-get remove rdfind && \
+    apt-get autoremove

@@ -14,4 +14,4 @@ mkdir -p /opt/openpose/build && \
         .. && \
         make -j`nproc` && \
         mv /opt/openpose/models /opt/openpose_models && \
-        rm -rf /opt/openpose/3rdparty
+        rm -rf 3rdparty .git

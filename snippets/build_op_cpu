@@ -9,4 +9,4 @@ mkdir -p /opt/openpose_cpu/build && \
 	-DDOWNLOAD_HAND_MODEL=OFF \
         .. && \
         make -j`nproc` && \
-        rm -rf /opt/openpose_cpu/3rdparty
+        rm -rf 3rdparty .git

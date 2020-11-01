@@ -6,8 +6,7 @@ RUN cd /opt && \
       https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
       --branch master --single-branch && \
     cd openpose && \
-    git describe --always > .git-describe && \
-    rm -rf .git
+    git describe --always > .git-describe
 
 # Apply patches
 COPY CMakeLists.patch /opt/openpose/
@@ -41,7 +40,7 @@ RUN mkdir -p /opt/openpose/build && \
         .. && \
         make -j`nproc` && \
         mv /opt/openpose/models /opt/openpose_models && \
-        rm -rf /opt/openpose/3rdparty
+        rm -rf 3rdparty .git
 
 # Build CPU OpenPose
 RUN mkdir -p /opt/openpose_cpu/build && \
@@ -55,7 +54,7 @@ RUN mkdir -p /opt/openpose_cpu/build && \
 	-DDOWNLOAD_HAND_MODEL=OFF \
         .. && \
         make -j`nproc` && \
-        rm -rf /opt/openpose_cpu/3rdparty
+        rm -rf 3rdparty .git
 
 # Build legacy GPU OpenPose
 RUN mkdir -p /opt/openpose_legacy_gpu/build && \
@@ -71,7 +70,7 @@ RUN mkdir -p /opt/openpose_legacy_gpu/build && \
 	-DDOWNLOAD_HAND_MODEL=OFF \
         .. && \
         make -j`nproc` && \
-        rm -rf /opt/openpose_legacy_gpu/3rdparty
+        rm -rf 3rdparty .git
 
 # Reduce size of redundant files
 RUN apt-get install rdfind && \

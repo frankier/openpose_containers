@@ -11,4 +11,4 @@ mkdir -p /opt/openpose_legacy_gpu/build && \
 	-DDOWNLOAD_HAND_MODEL=OFF \
         .. && \
         make -j`nproc` && \
-        rm -rf /opt/openpose_legacy_gpu/3rdparty
+        rm -rf 3rdparty .git

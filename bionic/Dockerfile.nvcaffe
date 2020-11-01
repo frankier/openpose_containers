@@ -6,8 +6,7 @@ RUN cd /opt && \
       https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
       --branch master --single-branch && \
     cd openpose && \
-    git describe --always > .git-describe && \
-    rm -rf .git
+    git describe --always > .git-describe
 
 # Apply patches
 COPY CMakeLists.patch /opt/openpose/
@@ -37,4 +36,4 @@ RUN mkdir -p /opt/openpose/build && \
         .. && \
         make -j`nproc` && \
         mv /opt/openpose/models /opt/openpose_models && \
-        rm -rf /opt/openpose/3rdparty
+        rm -rf 3rdparty .git

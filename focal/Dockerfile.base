@@ -46,14 +46,14 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         python3-opencv \
         python3-numpy
 
-RUN wget \
+RUN wget -nv \
       http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run && \
     sh cuda_10.2.89_440.33.01_linux.run --silent --toolkit --override && \
     rm cuda_10.2.89_440.33.01_linux.run && \
     sed -i '/unsupported GNU version/d' \
       /usr/include/crt/host_config.h
 
-RUN wget \
+RUN wget -nv \
       https://developer.nvidia.com/compute/machine-learning/cudnn/secure/7.6.5.32/Production/10.2_20191118/cudnn-10.2-linux-x64-v7.6.5.32.tgz && \
     tar -xzvf cudnn-10.2-linux-x64-v7.6.5.32.tgz && \
     cp cuda/include/cudnn*.h /usr/local/cuda/include && \

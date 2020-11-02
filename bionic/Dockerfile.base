@@ -53,7 +53,7 @@ RUN add-apt-repository -y ppa:jonathonf/ffmpeg-4 && \
     apt-get -y --no-install-recommends install ffmpeg
 
 # Up to date CMake (Ubuntu 18.04 includes 3.10 which is too old)
-RUN wget -O - \
+RUN wget -nv -O - \
         https://apt.kitware.com/keys/kitware-archive-latest.asc | \
         gpg --dearmor - | \
         tee /etc/apt/trusted.gpg.d/kitware.gpg && \
@@ -63,8 +63,8 @@ RUN wget -O - \
 
 # Install OpenCV
 RUN cd /opt && \
-    wget -O opencv3.4.12.zip https://github.com/opencv/opencv/archive/3.4.12.zip && \
-    wget -O opencv-contrib3.4.12.zip https://github.com/opencv/opencv_contrib/archive/3.4.12.zip && \
+    wget -nv -O opencv3.4.12.zip https://github.com/opencv/opencv/archive/3.4.12.zip && \
+    wget -nv -O opencv-contrib3.4.12.zip https://github.com/opencv/opencv_contrib/archive/3.4.12.zip && \
     unzip opencv3.4.12.zip && \
     unzip opencv-contrib3.4.12.zip && \
     cd opencv-3.4.12/ && \

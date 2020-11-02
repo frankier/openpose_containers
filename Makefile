@@ -19,8 +19,10 @@ clean:
 	rm -f \
 	  bionic/*.patch \
 	  bionic/openpose_env_* \
+	  bionic/*.cxx \
 	  bionic/.assets \
 	  focal/*.patch \
+	  focal/*.cxx \
 	  focal/openpose_env_* \
 	  focal/.assets \
 	  bionic/Dockerfile.nvcaffe \
@@ -36,7 +38,8 @@ bionic/.assets: \
 	  patches/CMakeLists.patch \
 	  patches/python37.patch \
 	  scripts/openpose_env_multi \
-	  scripts/openpose_env_nvcaffe
+	  scripts/openpose_env_nvcaffe \
+	  scripts/cudacap.cxx
 	cp $^ bionic/ && touch $@
 
 focal/.assets: \
@@ -44,7 +47,8 @@ focal/.assets: \
 	  patches/rm-compute-30.patch \
 	  patches/cudnn8.patch \
 	  scripts/openpose_env_multi \
-	  scripts/openpose_env_nvcaffe
+	  scripts/openpose_env_nvcaffe \
+	  scripts/cudacap.cxx
 	cp $^ focal/ && touch $@
 
 bionic/Dockerfile.nvcaffe: nvcaffe_template bionic/.assets snippets/*

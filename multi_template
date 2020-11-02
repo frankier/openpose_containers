@@ -33,5 +33,5 @@ RUN apt-get install -y --no-install-recommends rdfind && \
     /opt/openpose \
     /opt/openpose_cpu \
     /opt/openpose_legacy_gpu && \
-    apt-get remove rdfind && \
-    apt-get autoremove
+    apt-get remove -y rdfind && \
+    apt-get autoremove -y

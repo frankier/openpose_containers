@@ -45,7 +45,7 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         libopencv-dev \
         python3-opencv \
         python3-numpy \
-        linux-headers-$(uname -r)
+        linux-headers-generic
 
 RUN wget -nv \
       http://developer.download.nvidia.com/compute/cuda/10.2/Prod/local_installers/cuda_10.2.89_440.33.01_linux.run && \

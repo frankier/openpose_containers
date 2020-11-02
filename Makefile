@@ -10,10 +10,10 @@ all: \
 	bionic/Dockerfile.multi \
 	focal/Dockerfile.nvcaffe \
 	focal/Dockerfile.multi \
-	bionic/Singularity.nvcaffe \
-	bionic/Singularity.multi \
-	focal/Singularity.nvcaffe \
-	focal/Singularity.multi
+	bionic/Singularity.bionic_nvcaffe \
+	bionic/Singularity.bionic_multi \
+	focal/Singularity.focal_nvcaffe \
+	focal/Singularity.focal_multi
 
 clean:
 	rm -f \
@@ -25,10 +25,10 @@ clean:
 	  bionic/Dockerfile.multi \
 	  focal/Dockerfile.nvcaffe \
 	  focal/Dockerfile.multi \
-	  bionic/Singularity.nvcaffe \
-	  bionic/Singularity.multi \
-	  focal/Singularity.nvcaffe \
-	  focal/Singularity.multi
+	  bionic/Singularity.bionic_nvcaffe \
+	  bionic/Singularity.bionic_multi \
+	  focal/Singularity.focal_nvcaffe \
+	  focal/Singularity.focal_multi
 
 bionic/.patches: patches/CMakeLists.patch patches/python37.patch
 	cp $^ bionic/ && touch $@
@@ -60,22 +60,22 @@ focal/Dockerfile.multi: multi_template focal/.patches focal/rm-compute-30.patch 
 	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch cudnn8.patch" \
 	  envsubst > $@
 
-bionic/Singularity.nvcaffe: singularity_template
+bionic/Singularity.bionic_nvcaffe: singularity_template
 	cat $< | \
 	  TAG=bionic_nvcaffe \
 	  envsubst '$$TAG' > $@
 
-bionic/Singularity.multi: singularity_template
+bionic/Singularity.bionic_multi: singularity_template
 	cat $< | \
 	  TAG=bionic_multi \
 	  envsubst '$$TAG' > $@
 
-focal/Singularity.nvcaffe: singularity_template
+focal/Singularity.focal_nvcaffe: singularity_template
 	cat $< | \
 	  TAG=focal_nvcaffe \
 	  envsubst '$$TAG' > $@
 
-focal/Singularity.multi: singularity_template
+focal/Singularity.focal_multi: singularity_template
 	cat $< | \
 	  TAG=focal_multi \
 	  envsubst '$$TAG' > $@

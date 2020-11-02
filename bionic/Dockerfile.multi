@@ -81,3 +81,14 @@ RUN apt-get install -y --no-install-recommends rdfind && \
     /opt/openpose_legacy_gpu && \
     apt-get remove -y rdfind && \
     apt-get autoremove -y
+
+# Build CUDA capability checker
+COPY cudacap.cxx /
+
+RUN g++ /cudacap.cxx \
+      -I/usr/local/cuda/include \
+      -o /usr/local/bin/cudacap /usr/local/cuda/lib64/libcudart.so && \
+    rm /cudacap.cxx
+
+# Copy script with environment variable for source at container start
+COPY openpose_env_multi /.openpose_env

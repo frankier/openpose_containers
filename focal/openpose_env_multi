@@ -1,0 +1,19 @@
+if nvidia-smi; then
+    if [ "$(/usr/local/bin/cudacap)" -ge "50" ]; then
+        echo "#### USING GPU with NVCaffe ####"
+        export OPENPOSE_SRC=/opt/openpose
+        export OPENPOSE_VAR=gpu
+    else
+        echo "#### USING Legacy GPU with Custom Caffe ####"
+        export OPENPOSE_SRC=/opt/openpose_legacy_gpu
+        export OPENPOSE_VAR=legacy_gpu
+    fi
+else
+    echo "#### USING CPU ####"
+    export OPENPOSE_SRC=/opt/openpose_cpu
+    export OPENPOSE_VAR=cpu
+fi
+export OPENPOSE=$OPENPOSE_SRC/build
+export OPENPOSE_BIN=$OPENPOSE/examples/openpose/openpose.bin
+export PYTHONPATH="$OPENPOSE/python:$PYTHONPATH"
+export OPENPOSE_MODELS=/opt/openpose_models

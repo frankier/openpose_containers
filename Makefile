@@ -18,9 +18,11 @@ all: \
 clean:
 	rm -f \
 	  bionic/*.patch \
-	  bionic/.patches \
+	  bionic/openpose_env_* \
+	  bionic/.assets \
 	  focal/*.patch \
-	  focal/.patches \
+	  focal/openpose_env_* \
+	  focal/.assets \
 	  bionic/Dockerfile.nvcaffe \
 	  bionic/Dockerfile.multi \
 	  focal/Dockerfile.nvcaffe \
@@ -28,33 +30,42 @@ clean:
 	  bionic/Singularity.bionic_nvcaffe \
 	  bionic/Singularity.bionic_multi \
 	  focal/Singularity.focal_nvcaffe \
-	  focal/Singularity.focal_multi
+	  focal/Singularity.focal_multi \
 
-bionic/.patches: patches/CMakeLists.patch patches/python37.patch
+bionic/.assets: \
+	  patches/CMakeLists.patch \
+	  patches/python37.patch \
+	  scripts/openpose_env_multi \
+	  scripts/openpose_env_nvcaffe
 	cp $^ bionic/ && touch $@
 
-focal/.patches: patches/CMakeLists.patch patches/rm-compute-30.patch patches/cudnn8.patch
+focal/.assets: \
+	  patches/CMakeLists.patch \
+	  patches/rm-compute-30.patch \
+	  patches/cudnn8.patch \
+	  scripts/openpose_env_multi \
+	  scripts/openpose_env_nvcaffe
 	cp $^ focal/ && touch $@
 
-bionic/Dockerfile.nvcaffe: nvcaffe_template bionic/.patches snippets/*
+bionic/Dockerfile.nvcaffe: nvcaffe_template bionic/.assets snippets/*
 	cat $< | \
 	  TAG=bionic_base \
 	  OP_PATCHES="CMakeLists.patch python37.patch" \
 	  envsubst > $@
 
-bionic/Dockerfile.multi: multi_template bionic/.patches snippets/*
+bionic/Dockerfile.multi: multi_template bionic/.assets snippets/*
 	cat $< | \
 	  TAG=bionic_base \
 	  OP_PATCHES="CMakeLists.patch python37.patch" \
 	  envsubst > $@
 
-focal/Dockerfile.nvcaffe: nvcaffe_template focal/.patches focal/rm-compute-30.patch focal/cudnn8.patch snippets/*
+focal/Dockerfile.nvcaffe: nvcaffe_template focal/.assets focal/rm-compute-30.patch focal/cudnn8.patch snippets/*
 	cat $< | \
 	  TAG=focal_base \
 	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch cudnn8.patch" \
 	  envsubst > $@
 
-focal/Dockerfile.multi: multi_template focal/.patches focal/rm-compute-30.patch focal/cudnn8.patch snippets/*
+focal/Dockerfile.multi: multi_template focal/.assets focal/rm-compute-30.patch focal/cudnn8.patch snippets/*
 	cat $< | \
 	  TAG=focal_base \
 	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch cudnn8.patch" \

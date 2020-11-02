@@ -1,17 +1,6 @@
 Bootstrap: docker
 From: frankierr/openpose_containers:focal_multi
 
-%files
-    cudacap.cxx
-
-%post
-    # Build CUDA capability checker
-    g++ /cudacap.cxx \
-        -I/usr/local/cuda/include \
-	-o /cudacap /usr/local/cuda/lib64/libcudart.so && \
-    	rm /cudacap.cxx
-
-
 %environment
     if [ -z "$LD_LIBRARY_PATH" ]; then
         LD_LIBRARY_PATH="/.singularity.d/libs"
@@ -19,25 +8,7 @@ From: frankierr/openpose_containers:focal_multi
         LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/.singularity.d/libs"
     fi
 
-    if nvidia-smi; then
-        if [ "$(/cudacap)" -ge "50" ]; then
-            echo "#### USING GPU with NVCaffe ####"
-            export OPENPOSE_SRC=/opt/openpose
-            export OPENPOSE_VAR=gpu
-        else
-            echo "#### USING Legacy GPU with Custom Caffe ####"
-            export OPENPOSE_SRC=/opt/openpose_legacy_gpu
-            export OPENPOSE_VAR=legacy_gpu
-        fi
-    else
-        echo "#### USING CPU ####"
-        export OPENPOSE_SRC=/opt/openpose_cpu
-        export OPENPOSE_VAR=cpu
-    fi
-    export OPENPOSE=$OPENPOSE_SRC/build
-    export OPENPOSE_BIN=$OPENPOSE/examples/openpose/openpose.bin
-    export PYTHONPATH="$OPENPOSE/python:$PYTHONPATH"
-    export OPENPOSE_MODELS=/opt/openpose_models
+    source /.openpose_env
 
 
 %runscript

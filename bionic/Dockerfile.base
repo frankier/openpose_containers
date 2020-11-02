@@ -65,8 +65,8 @@ RUN wget -nv -O - \
 RUN cd /opt && \
     wget -nv -O opencv3.4.12.zip https://github.com/opencv/opencv/archive/3.4.12.zip && \
     wget -nv -O opencv-contrib3.4.12.zip https://github.com/opencv/opencv_contrib/archive/3.4.12.zip && \
-    unzip opencv3.4.12.zip && \
-    unzip opencv-contrib3.4.12.zip && \
+    unzip -q opencv3.4.12.zip && \
+    unzip -q opencv-contrib3.4.12.zip && \
     cd opencv-3.4.12/ && \
     mkdir build && cd build && \
     cmake -D CMAKE_BUILD_TYPE=RELEASE \

@@ -61,7 +61,7 @@ RUN wget \
     rm -rf cudnn-10.2-linux-x64-v7.6.5.32.tgz cuda
 
 RUN git clone \
-    --depth 1 --branch focal-cuda11 \
+    --depth 1 --branch focal-cuda10 \
     https://github.com/frankier/caffe.git \
     /opt/caffe
 

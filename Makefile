@@ -44,7 +44,6 @@ bionic/.assets: \
 
 focal/.assets: \
 	  patches/CMakeLists.patch \
-	  patches/rm-compute-30.patch \
 	  scripts/openpose_env_multi \
 	  scripts/openpose_env_nvcaffe \
 	  scripts/cudacap.cxx
@@ -62,16 +61,16 @@ bionic/Dockerfile.multi: multi_template bionic/.assets snippets/*
 	  OP_PATCHES="CMakeLists.patch python37.patch" \
 	  envsubst > $@
 
-focal/Dockerfile.nvcaffe: nvcaffe_template focal/.assets focal/rm-compute-30.patch snippets/*
+focal/Dockerfile.nvcaffe: nvcaffe_template focal/.assets snippets/*
 	cat $< | \
 	  TAG=focal_base \
-	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch" \
+	  OP_PATCHES="CMakeLists.patch" \
 	  envsubst > $@
 
-focal/Dockerfile.multi: multi_template focal/.assets focal/rm-compute-30.patch snippets/*
+focal/Dockerfile.multi: multi_template focal/.assets snippets/*
 	cat $< | \
 	  TAG=focal_base \
-	  OP_PATCHES="CMakeLists.patch rm-compute-30.patch" \
+	  OP_PATCHES="CMakeLists.patch" \
 	  envsubst > $@
 
 bionic/Singularity.bionic_nvcaffe: singularity_template

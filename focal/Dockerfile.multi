@@ -10,11 +10,11 @@ RUN cd /opt && \
     git describe --always > .git-describe
 
 # Apply patches
-COPY CMakeLists.patch rm-compute-30.patch /opt/openpose/
+COPY CMakeLists.patch /opt/openpose/
 
 RUN cd /opt/openpose && \
-  git apply CMakeLists.patch rm-compute-30.patch && \
-  rm CMakeLists.patch rm-compute-30.patch
+  git apply CMakeLists.patch && \
+  rm CMakeLists.patch
 
 # Copy out other versions
 RUN cp -R /opt/openpose /opt/openpose_cpu && \

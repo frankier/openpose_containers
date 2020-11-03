@@ -7,6 +7,7 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
         build-essential \
         git \
         wget \
+        curl \
         nano \
         dialog \
         software-properties-common \

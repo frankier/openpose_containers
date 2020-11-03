@@ -4,9 +4,9 @@ mkdir -p /opt/openpose_cpu/build && \
         cmake \
         -DGPU_MODE=CPU_ONLY \
         -DBUILD_PYTHON=ON \
-	-DDOWNLOAD_BODY_25_MODEL=OFF \
-	-DDOWNLOAD_FACE_MODEL=OFF \
-	-DDOWNLOAD_HAND_MODEL=OFF \
+        -DDOWNLOAD_BODY_25_MODEL=OFF \
+        -DDOWNLOAD_FACE_MODEL=OFF \
+        -DDOWNLOAD_HAND_MODEL=OFF \
         .. && \
         make -j`nproc` && \
         rm -rf 3rdparty .git

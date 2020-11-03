@@ -59,7 +59,8 @@ RUN export LC_ALL=C DEBIAN_FRONTEND=noninteractive && \
       cuda-compat-10-2 \
       libnccl2 \
       libnccl-dev \
-      libcudnn7
+      libcudnn7 \
+      libcudnn7-dev
 
 RUN sed -i '/unsupported GNU version/d' \
       /usr/local/cuda/include/crt/host_config.h

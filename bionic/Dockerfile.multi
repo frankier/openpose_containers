@@ -54,7 +54,7 @@ RUN     git clone https://github.com/oneapi-src/oneDNN.git && \
     rm oneDNN && \
     mkdir -p /opt/openpose_cpu/build && \
     cd /opt/openpose_cpu/ && \
-    export MKLDNNROOT=/usr/local
+    export MKLDNNROOT=/usr/local && \
     cd build && \
         cmake \
         -DGPU_MODE=CPU_ONLY \

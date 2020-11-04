@@ -6,6 +6,9 @@ RUN rm -rf \
     /usr/local/cuda-10.2/NsightSystems-cli-2020.1.1 \
     /opt/nvidia
 
+# Remove Nvidia installed Python 3.6 packages
+rm -rf /usr/local/lib/python3.6/
+
 # Distribution packages
 RUN export LC_ALL=C && \
     apt-get -y --no-install-recommends update && \

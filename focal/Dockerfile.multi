@@ -41,17 +41,18 @@ RUN mkdir -p /opt/openpose/build && \
         .. && \
         make -j`nproc` && \
         mv /opt/openpose/models /opt/openpose_models && \
+        cd .. && \
         rm -rf 3rdparty .git
 
 # Build CPU OpenPose
-RUN     git clone https://github.com/oneapi-src/oneDNN.git && \
+RUN git clone https://github.com/oneapi-src/oneDNN.git && \
     cd oneDNN && \
     git reset --hard 9a865c2b935e611f4ea451a26bebe45ec5ef4160 && \
     mkdir -p build && cd build && cmake .. && \
     make && \
     make install && \
     cd ../.. && \
-    rm oneDNN && \
+    rm -rf oneDNN && \
     mkdir -p /opt/openpose_cpu/build && \
     cd /opt/openpose_cpu/ && \
     export MKLDNNROOT=/usr/local && \
@@ -64,6 +65,7 @@ RUN     git clone https://github.com/oneapi-src/oneDNN.git && \
         -DDOWNLOAD_HAND_MODEL=OFF \
         .. && \
     make -j`nproc` && \
+    cd .. && \
     rm -rf 3rdparty .git
 
 # Build legacy GPU OpenPose
@@ -80,6 +82,7 @@ RUN mkdir -p /opt/openpose_legacy_gpu/build && \
         -DDOWNLOAD_HAND_MODEL=OFF \
         .. && \
         make -j`nproc` && \
+        cd .. && \
         rm -rf 3rdparty .git
 
 # Reduce size of redundant files

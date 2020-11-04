@@ -37,6 +37,7 @@ RUN mkdir -p /opt/openpose/build && \
         .. && \
         make -j`nproc` && \
         mv /opt/openpose/models /opt/openpose_models && \
+        cd .. && \
         rm -rf 3rdparty .git
 
 # Copy script with environment variable for source at container start

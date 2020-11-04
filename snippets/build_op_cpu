@@ -1,6 +1,6 @@
 git clone https://github.com/oneapi-src/oneDNN.git && \
     cd oneDNN && \
-    git reset --hard 9a865c2b935e611f4ea451a26bebe45ec5ef4160 && \
+    git reset --hard ae00102be506ed0fe2099c6557df2aa88ad57ec1 && \
     mkdir -p build && cd build && cmake .. && \
     make && \
     make install && \

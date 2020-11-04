@@ -44,8 +44,17 @@ RUN mkdir -p /opt/openpose/build && \
         rm -rf 3rdparty .git
 
 # Build CPU OpenPose
-RUN mkdir -p /opt/openpose_cpu/build && \
+RUN     git clone https://github.com/oneapi-src/oneDNN.git && \
+    cd oneDNN && \
+    git reset --hard 9a865c2b935e611f4ea451a26bebe45ec5ef4160 && \
+    mkdir -p build && cd build && cmake .. && \
+    make && \
+    make install && \
+    cd ../.. && \
+    rm oneDNN && \
+    mkdir -p /opt/openpose_cpu/build && \
     cd /opt/openpose_cpu/ && \
+    export MKLDNNROOT=/usr/local
     cd build && \
         cmake \
         -DGPU_MODE=CPU_ONLY \
@@ -54,8 +63,8 @@ RUN mkdir -p /opt/openpose_cpu/build && \
         -DDOWNLOAD_FACE_MODEL=OFF \
         -DDOWNLOAD_HAND_MODEL=OFF \
         .. && \
-        make -j`nproc` && \
-        rm -rf 3rdparty .git
+    make -j`nproc` && \
+    rm -rf 3rdparty .git
 
 # Build legacy GPU OpenPose
 RUN mkdir -p /opt/openpose_legacy_gpu/build && \

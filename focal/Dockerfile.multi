@@ -48,6 +48,9 @@ RUN mkdir -p /opt/openpose/build && \
 RUN git clone https://github.com/oneapi-src/oneDNN.git && \
     cd oneDNN && \
     git reset --hard ae00102be506ed0fe2099c6557df2aa88ad57ec1 && \
+    cd scripts && \
+    ./prepare_mkl.sh && \
+    cd .. \
     mkdir -p build && \
     cd build && \
     cmake \

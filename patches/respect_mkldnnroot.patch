@@ -1,0 +1,34 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6d853c94..05601390 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -757,13 +757,22 @@ if (UNIX OR APPLE)
+           #  "${MLSL_PATH}/intel64/lib/*"
+           #  )
+           #file(COPY ${MLSL_SO} DESTINATION ${CMAKE_BINARY_DIR}/caffe)
+-
+-          set(MKL_LIBS
+-            #"${CMAKE_BINARY_DIR}/caffe/libmlsl.so"
+-            "${CMAKE_BINARY_DIR}/caffe/libiomp5.so"
+-            "${CMAKE_BINARY_DIR}/caffe/libmklml_intel.so"
+-            "${CMAKE_BINARY_DIR}/caffe/lib/libmkldnn.so"
+-            )
++          if(DEFINED ENV{MKLDNNROOT})
++            set(MKLDNNROOT_DIR $ENV{MKLDNNROOT})
++            set(MKL_LIBS
++              #"${CMAKE_BINARY_DIR}/caffe/libmlsl.so"
++              "${MKLDNNROOT_DIR}/lib/libiomp5.so"
++              "${MKLDNNROOT_DIR}/lib/libmklml_intel.so"
++              "${MKLDNNROOT_DIR}/lib/libmkldnn.so"
++              )
++          else()
++            set(MKL_LIBS
++              #"${CMAKE_BINARY_DIR}/caffe/libmlsl.so"
++              "${CMAKE_BINARY_DIR}/caffe/libiomp5.so"
++              "${CMAKE_BINARY_DIR}/caffe/libmklml_intel.so"
++              "${CMAKE_BINARY_DIR}/caffe/lib/libmkldnn.so"
++              )
++          endif()
+         else (USE_MKL)
+           # execute_process(COMMAND git checkout master WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
+           execute_process(COMMAND git checkout c95002f WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)

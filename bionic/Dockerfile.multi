@@ -10,11 +10,11 @@ RUN cd /opt && \
     git describe --always > .git-describe
 
 # Apply patches
-COPY CMakeLists.patch python37.patch /opt/openpose/
+COPY CMakeLists.patch python37.patch respect_mkldnnroot.patch /opt/openpose/
 
 RUN cd /opt/openpose && \
-  git apply CMakeLists.patch python37.patch && \
-  rm CMakeLists.patch python37.patch
+  git apply CMakeLists.patch python37.patch respect_mkldnnroot.patch && \
+  rm CMakeLists.patch python37.patch respect_mkldnnroot.patch
 
 # Copy out other versions
 RUN cp -R /opt/openpose /opt/openpose_cpu && \

@@ -32,11 +32,12 @@ clean:
 	  bionic/Singularity.bionic_nvcaffe \
 	  bionic/Singularity.bionic_multi \
 	  focal/Singularity.focal_nvcaffe \
-	  focal/Singularity.focal_multi \
+	  focal/Singularity.focal_multi
 
 bionic/.assets: \
 	  patches/CMakeLists.patch \
 	  patches/python37.patch \
+	  patches/respect_mkldnnroot.patch \
 	  scripts/openpose_env_multi \
 	  scripts/openpose_env_nvcaffe \
 	  scripts/cudacap.cxx
@@ -44,6 +45,7 @@ bionic/.assets: \
 
 focal/.assets: \
 	  patches/CMakeLists.patch \
+	  patches/respect_mkldnnroot.patch \
 	  scripts/openpose_env_multi \
 	  scripts/openpose_env_nvcaffe \
 	  scripts/cudacap.cxx
@@ -58,7 +60,7 @@ bionic/Dockerfile.nvcaffe: nvcaffe_template bionic/.assets snippets/*
 bionic/Dockerfile.multi: multi_template bionic/.assets snippets/*
 	cat $< | \
 	  TAG=bionic_base \
-	  OP_PATCHES="CMakeLists.patch python37.patch" \
+	  OP_PATCHES="CMakeLists.patch python37.patch respect_mkldnnroot.patch" \
 	  envsubst > $@
 
 focal/Dockerfile.nvcaffe: nvcaffe_template focal/.assets snippets/*
@@ -70,7 +72,7 @@ focal/Dockerfile.nvcaffe: nvcaffe_template focal/.assets snippets/*
 focal/Dockerfile.multi: multi_template focal/.assets snippets/*
 	cat $< | \
 	  TAG=focal_base \
-	  OP_PATCHES="CMakeLists.patch" \
+	  OP_PATCHES="CMakeLists.patch respect_mkldnnroot.patch" \
 	  envsubst > $@
 
 bionic/Singularity.bionic_nvcaffe: singularity_template

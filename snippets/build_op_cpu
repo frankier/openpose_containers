@@ -1,7 +1,11 @@
 git clone https://github.com/oneapi-src/oneDNN.git && \
     cd oneDNN && \
     git reset --hard ae00102be506ed0fe2099c6557df2aa88ad57ec1 && \
-    mkdir -p build && cd build && cmake .. && \
+    mkdir -p build && \
+    cd build && \
+    cmake \
+        -DCMAKE_CXX_FLAGS="-w" \
+        .. && \
     make && \
     make install && \
     cd ../.. && \
@@ -10,7 +14,7 @@ git clone https://github.com/oneapi-src/oneDNN.git && \
     cd /opt/openpose_cpu/ && \
     export MKLDNNROOT=/usr/local && \
     cd build && \
-        cmake \
+    cmake \
         -DGPU_MODE=CPU_ONLY \
         -DBUILD_PYTHON=ON \
         -DDOWNLOAD_BODY_25_MODEL=OFF \

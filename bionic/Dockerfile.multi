@@ -50,7 +50,7 @@ RUN git clone https://github.com/oneapi-src/oneDNN.git && \
     git reset --hard ae00102be506ed0fe2099c6557df2aa88ad57ec1 && \
     cd scripts && \
     ./prepare_mkl.sh && \
-    cd .. \
+    cd .. && \
     mkdir -p build && \
     cd build && \
     cmake \

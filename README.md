@@ -22,15 +22,16 @@ It currently has two bases:
   * Python 3.8 (default)
   * OpenCV 4.2.0 (default)
 
-Upon these bases OpenPose is built either against NVCaffe or else multiple
-versions are compiled with the following configurations:
+Upon these bases OpenPose there are multiple images built. For example, for
+`focal` these are the following images:
 
- 1. A CPU version with CPU Caffe
- 2. A GPU version with normal Caffe
- 3. A GPU version with NVCaffe
+ * `focal_cpu`: Contains OpenPose built against an Intel MKL optimised CPU Caffe
+ * `focal_nvcaffe`: Contains OpenPose built against an NVidia optimised NVCaffe
+ * `focal_multi`: Contains both of the above versions, as well as normal GPU
+   Caffe. The entrypoint script automatically configures the correct version of
+   OpenPose.
 
-Upon these Docker bases, Singularity images which automatically select the
-correct version of OpenPose at runtime are made available.
+Upon these Docker bases, Singularity images are runtime are made available.
 
 The multi OpenPose container concept is based upon [this blog post by Peter
 Uhrig](peter-uhrig.de/openpose-with-nvcaffe-in-a-singularity-container-with-support-for-multiple-architectures/).

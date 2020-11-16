@@ -49,6 +49,7 @@ bionic/.assets: \
 focal/.assets: \
 	  patches/CMakeLists.patch \
 	  patches/respect_mkldnnroot.patch \
+	  patches/dummy.patch \
 	  scripts/openpose_env_multi \
 	  scripts/openpose_env_nvcaffe \
 	  scripts/openpose_env_cpu \
@@ -58,31 +59,31 @@ focal/.assets: \
 bionic/Dockerfile.nvcaffe: nvcaffe_template bionic/.assets snippets/*
 	cat $< | \
 	  TAG=bionic_base \
-	  OP_PATCHES="CMakeLists.patch python37.patch" \
+	  OP_PATCHES="python37.patch" \
 	  envsubst > $@
 
 bionic/Dockerfile.multi: multi_template bionic/.assets snippets/*
 	cat $< | \
 	  TAG=bionic_base \
-	  OP_PATCHES="CMakeLists.patch python37.patch respect_mkldnnroot.patch" \
+	  OP_PATCHES="python37.patch respect_mkldnnroot.patch" \
 	  envsubst > $@
 
 focal/Dockerfile.nvcaffe: nvcaffe_template focal/.assets snippets/*
 	cat $< | \
 	  TAG=focal_base \
-	  OP_PATCHES="CMakeLists.patch" \
+	  OP_PATCHES="dummy.patch" \
 	  envsubst > $@
 
 focal/Dockerfile.cpu: nvcaffe_template focal/.assets snippets/*
 	cat $< | \
 	  TAG=focal_cpubase \
-	  OP_PATCHES="CMakeLists.patch respect_mkldnnroot.patch" \
+	  OP_PATCHES="respect_mkldnnroot.patch" \
 	  envsubst > $@
 
 focal/Dockerfile.multi: multi_template focal/.assets snippets/*
 	cat $< | \
 	  TAG=focal_base \
-	  OP_PATCHES="CMakeLists.patch respect_mkldnnroot.patch" \
+	  OP_PATCHES="respect_mkldnnroot.patch" \
 	  envsubst > $@
 
 bionic/Singularity.bionic_nvcaffe: singularity_template

@@ -4,17 +4,17 @@ FROM frankierr/openpose_containers:focal_base
 RUN cd /opt && \
     git clone \
       https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
-      --branch master --single-branch && \
+      --branch v1.7.0.1 --single-branch && \
     cd openpose && \
     git submodule update --recursive --remote && \
     git describe --always > .git-describe
 
 # Apply patches
-COPY CMakeLists.patch respect_mkldnnroot.patch /opt/openpose/
+COPY respect_mkldnnroot.patch /opt/openpose/
 
 RUN cd /opt/openpose && \
-  git apply CMakeLists.patch respect_mkldnnroot.patch && \
-  rm CMakeLists.patch respect_mkldnnroot.patch
+  git apply respect_mkldnnroot.patch && \
+  rm respect_mkldnnroot.patch
 
 # Copy out other versions
 RUN cp -R /opt/openpose /opt/openpose_cpu && \

@@ -4,17 +4,17 @@ FROM frankierr/openpose_containers:focal_base
 RUN cd /opt && \
     git clone \
       https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
-      --branch master --single-branch && \
+      --branch v1.7.0.1 --single-branch && \
     cd openpose && \
     git submodule update --recursive --remote && \
     git describe --always > .git-describe
 
 # Apply patches
-COPY CMakeLists.patch /opt/openpose/
+COPY dummy.patch /opt/openpose/
 
 RUN cd /opt/openpose && \
-  git apply CMakeLists.patch && \
-  rm CMakeLists.patch
+  git apply dummy.patch && \
+  rm dummy.patch
 
 # Fix up stubs
 RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \

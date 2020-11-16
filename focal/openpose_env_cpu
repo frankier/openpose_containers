@@ -1,0 +1,6 @@
+export OPENPOSE_SRC=/opt/openpose_cpu
+export OPENPOSE_VAR=cpu
+export OPENPOSE=$OPENPOSE_SRC/build
+export OPENPOSE_BIN=$OPENPOSE/examples/openpose/openpose.bin
+export PYTHONPATH="$OPENPOSE/python:$PYTHONPATH"
+export OPENPOSE_MODELS=/opt/openpose_models

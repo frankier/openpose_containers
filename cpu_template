@@ -1,0 +1,46 @@
+FROM frankierr/openpose_containers:$TAG
+
+# Get OpenPose
+RUN $GET_OPENPOSE
+
+# Apply patches
+COPY $OP_PATCHES /opt/openpose/
+
+RUN cd /opt/openpose && \
+  git apply $OP_PATCHES && \
+  rm $OP_PATCHES
+
+# Fix up stubs
+RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \
+    /usr/local/cuda/lib64/stubs/libnvidia-ml.so.1
+
+# Build CPU OpenPose
+git clone https://github.com/oneapi-src/oneDNN.git && \
+    cd oneDNN && \
+    git reset --hard ae00102be506ed0fe2099c6557df2aa88ad57ec1 && \
+    cd scripts && \
+    ./prepare_mkl.sh && \
+    cd .. && \
+    mkdir -p build && \
+    cd build && \
+    cmake \
+        -DCMAKE_CXX_FLAGS="-w" \
+        .. && \
+    make && \
+    make install && \
+    cd ../.. && \
+    rm -rf oneDNN && \
+    mkdir -p /opt/openpose_cpu/build && \
+    cd /opt/openpose_cpu/ && \
+    export MKLDNNROOT=/usr/local && \
+    cd build && \
+    cmake \
+        -DGPU_MODE=CPU_ONLY \
+        -DBUILD_PYTHON=ON \
+        .. && \
+    make -j`nproc` && \
+    cd .. && \
+    rm -rf 3rdparty .git
+
+# Copy script with environment variable for source at container start
+COPY openpose_env_nvcaffe /.openpose_env

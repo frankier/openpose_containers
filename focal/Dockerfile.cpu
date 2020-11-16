@@ -1,0 +1,44 @@
+FROM frankierr/openpose_containers:focal_cpubase
+
+# Get OpenPose
+RUN cd /opt && \
+    git clone \
+      https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
+      --branch master --single-branch && \
+    cd openpose && \
+    git submodule update --recursive --remote && \
+    git describe --always > .git-describe
+
+# Apply patches
+COPY CMakeLists.patch respect_mkldnnroot.patch /opt/openpose/
+
+RUN cd /opt/openpose && \
+  git apply CMakeLists.patch respect_mkldnnroot.patch && \
+  rm CMakeLists.patch respect_mkldnnroot.patch
+
+# Fix up stubs
+RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \
+    /usr/local/cuda/lib64/stubs/libnvidia-ml.so.1
+
+# Build GPU + NVCaffe OpenPose
+RUN mkdir -p /opt/openpose/build && \
+    cd /opt/openpose/ && \
+    cd build && \
+        cmake \
+        -DGPU_MODE=CUDA \
+        -DBUILD_PYTHON=ON \
+        -DCMAKE_EXE_LINKER_FLAGS="-Wl,-rpath-link=/usr/local/cuda/lib64/stubs" \
+        -DDL_FRAMEWORK=NV_CAFFE \
+        -DCaffe_INCLUDE_DIRS=/usr/local/include/caffe \
+        -DCaffe_LIBS_RELEASE=/usr/local/lib/libcaffe-nv.so \
+        -DCaffe_LIBS=/usr/local/lib/libcaffe-nv.so \
+        -DBUILD_CAFFE=OFF \
+        -DCUDA_ARCH=All \
+        .. && \
+        make -j`nproc` && \
+        mv /opt/openpose/models /opt/openpose_models && \
+        cd .. && \
+        rm -rf 3rdparty .git
+
+# Copy script with environment variable for source at container start
+COPY openpose_env_nvcaffe /.openpose_env

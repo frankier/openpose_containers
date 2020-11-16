@@ -1,0 +1,9 @@
+Bootstrap: docker
+From: frankierr/openpose_containers:focal_cpu
+
+%environment
+    source /.openpose_env
+
+
+%runscript
+    cd $OPENPOSE_SRC && exec $OPENPOSE_BIN "$@"

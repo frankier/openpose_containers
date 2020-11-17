@@ -1,0 +1,20 @@
+diff --git a/3rdparty/caffe b/3rdparty/caffe
+index b5ede488..b6712cea 160000
+--- a/3rdparty/caffe
++++ b/3rdparty/caffe
+@@ -1 +1 @@
+-Subproject commit b5ede488952e40861e84e51a9f9fd8fe2395cc8a
++Subproject commit b6712cead68809ee55572286177b4acb3c7e3604-dirty
+diff --git a/cmake/Cuda.cmake b/cmake/Cuda.cmake
+index 404cda24..61de0b00 100644
+--- a/cmake/Cuda.cmake
++++ b/cmake/Cuda.cmake
+@@ -32,8 +32,6 @@ set(PASCAL "60 61 62")
+ set(VOLTA "70 72") # set(VOLTA "70 71 72") # This crashes with CUDA 10
+ # Turing (CUDA >= 10)
+ set(TURING "75")
+-# Ampere (CUDA >= 11)
+-set(AMPERE "80 86")
+ if (UNIX AND NOT APPLE)
+   set(Caffe_known_gpu_archs "${KEPLER} ${MAXWELL} ${PASCAL} ${VOLTA} ${TURING} ${AMPERE}")
+   # set(Caffe_known_gpu_archs "${FERMI} ${KEPLER} ${MAXWELL} ${PASCAL} ${VOLTA} ${TURING}")

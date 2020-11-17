@@ -41,6 +41,7 @@ bionic/.assets: \
 	  patches/CMakeLists.patch \
 	  patches/python37.patch \
 	  patches/respect_mkldnnroot.patch \
+	  patches/rm-ampere-cuda10.patch \
 	  scripts/openpose_env_multi \
 	  scripts/openpose_env_nvcaffe \
 	  scripts/cudacap.cxx
@@ -49,7 +50,7 @@ bionic/.assets: \
 focal/.assets: \
 	  patches/CMakeLists.patch \
 	  patches/respect_mkldnnroot.patch \
-	  patches/dummy.patch \
+	  patches/rm-ampere-cuda10.patch \
 	  scripts/openpose_env_multi \
 	  scripts/openpose_env_nvcaffe \
 	  scripts/openpose_env_cpu \
@@ -59,19 +60,19 @@ focal/.assets: \
 bionic/Dockerfile.nvcaffe: nvcaffe_template bionic/.assets snippets/*
 	cat $< | \
 	  TAG=bionic_base \
-	  OP_PATCHES="python37.patch" \
+	  OP_PATCHES="rm-ampere-cuda10.patch python37.patch" \
 	  envsubst > $@
 
 bionic/Dockerfile.multi: multi_template bionic/.assets snippets/*
 	cat $< | \
 	  TAG=bionic_base \
-	  OP_PATCHES="python37.patch respect_mkldnnroot.patch" \
+	  OP_PATCHES="rm-ampere-cuda10.patch python37.patch respect_mkldnnroot.patch" \
 	  envsubst > $@
 
 focal/Dockerfile.nvcaffe: nvcaffe_template focal/.assets snippets/*
 	cat $< | \
 	  TAG=focal_base \
-	  OP_PATCHES="dummy.patch" \
+	  OP_PATCHES="rm-ampere-cuda10.patch" \
 	  envsubst > $@
 
 focal/Dockerfile.cpu: cpu_template focal/.assets snippets/*
@@ -83,7 +84,7 @@ focal/Dockerfile.cpu: cpu_template focal/.assets snippets/*
 focal/Dockerfile.multi: multi_template focal/.assets snippets/*
 	cat $< | \
 	  TAG=focal_base \
-	  OP_PATCHES="respect_mkldnnroot.patch" \
+	  OP_PATCHES="rm-ampere-cuda10.patch respect_mkldnnroot.patch" \
 	  envsubst > $@
 
 bionic/Singularity.bionic_nvcaffe: singularity_template

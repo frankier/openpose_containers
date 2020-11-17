@@ -10,11 +10,11 @@ RUN cd /opt && \
     git describe --always > .git-describe
 
 # Apply patches
-COPY python37.patch /opt/openpose/
+COPY rm-ampere-cuda10.patch python37.patch /opt/openpose/
 
 RUN cd /opt/openpose && \
-  git apply python37.patch && \
-  rm python37.patch
+  git apply rm-ampere-cuda10.patch python37.patch && \
+  rm rm-ampere-cuda10.patch python37.patch
 
 # Fix up stubs
 RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \

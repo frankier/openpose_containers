@@ -10,12 +10,8 @@ RUN cd /opt/openpose && \
   git apply $OP_PATCHES && \
   rm $OP_PATCHES
 
-# Fix up stubs
-RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \
-    /usr/local/cuda/lib64/stubs/libnvidia-ml.so.1
-
 # Build CPU OpenPose
-git clone https://github.com/oneapi-src/oneDNN.git && \
+RUN git clone https://github.com/oneapi-src/oneDNN.git && \
     cd oneDNN && \
     git reset --hard ae00102be506ed0fe2099c6557df2aa88ad57ec1 && \
     cd scripts && \
@@ -30,8 +26,8 @@ git clone https://github.com/oneapi-src/oneDNN.git && \
     make install && \
     cd ../.. && \
     rm -rf oneDNN && \
-    mkdir -p /opt/openpose_cpu/build && \
-    cd /opt/openpose_cpu/ && \
+    mkdir -p /opt/openpose/build && \
+    cd /opt/openpose/ && \
     export MKLDNNROOT=/usr/local && \
     cd build && \
     cmake \

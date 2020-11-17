@@ -74,7 +74,7 @@ focal/Dockerfile.nvcaffe: nvcaffe_template focal/.assets snippets/*
 	  OP_PATCHES="dummy.patch" \
 	  envsubst > $@
 
-focal/Dockerfile.cpu: nvcaffe_template focal/.assets snippets/*
+focal/Dockerfile.cpu: cpu_template focal/.assets snippets/*
 	cat $< | \
 	  TAG=focal_cpubase \
 	  OP_PATCHES="respect_mkldnnroot.patch" \

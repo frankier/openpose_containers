@@ -4,7 +4,7 @@ FROM frankierr/openpose_containers:focal_cpubase
 RUN cd /opt && \
     git clone \
       https://github.com/CMU-Perceptual-Computing-Lab/openpose.git \
-      --branch v1.7.0.1 --single-branch && \
+      --branch v1.7.0 --single-branch && \
     cd openpose && \
     git submodule update --recursive --remote && \
     git describe --always > .git-describe
@@ -16,29 +16,33 @@ RUN cd /opt/openpose && \
   git apply respect_mkldnnroot.patch && \
   rm respect_mkldnnroot.patch
 
-# Fix up stubs
-RUN ln -s /usr/local/cuda/lib64/stubs/libnvidia-ml.so \
-    /usr/local/cuda/lib64/stubs/libnvidia-ml.so.1
-
-# Build GPU + NVCaffe OpenPose
-RUN mkdir -p /opt/openpose/build && \
-    cd /opt/openpose/ && \
+# Build CPU OpenPose
+RUN git clone https://github.com/oneapi-src/oneDNN.git && \
+    cd oneDNN && \
+    git reset --hard ae00102be506ed0fe2099c6557df2aa88ad57ec1 && \
+    cd scripts && \
+    ./prepare_mkl.sh && \
+    cd .. && \
+    mkdir -p build && \
     cd build && \
-        cmake \
-        -DGPU_MODE=CUDA \
-        -DBUILD_PYTHON=ON \
-        -DCMAKE_EXE_LINKER_FLAGS="-Wl,-rpath-link=/usr/local/cuda/lib64/stubs" \
-        -DDL_FRAMEWORK=NV_CAFFE \
-        -DCaffe_INCLUDE_DIRS=/usr/local/include/caffe \
-        -DCaffe_LIBS_RELEASE=/usr/local/lib/libcaffe-nv.so \
-        -DCaffe_LIBS=/usr/local/lib/libcaffe-nv.so \
-        -DBUILD_CAFFE=OFF \
-        -DCUDA_ARCH=All \
+    cmake \
+        -DCMAKE_CXX_FLAGS="-w" \
         .. && \
-        make -j`nproc` && \
-        mv /opt/openpose/models /opt/openpose_models && \
-        cd .. && \
-        rm -rf 3rdparty .git
+    make && \
+    make install && \
+    cd ../.. && \
+    rm -rf oneDNN && \
+    mkdir -p /opt/openpose/build && \
+    cd /opt/openpose/ && \
+    export MKLDNNROOT=/usr/local && \
+    cd build && \
+    cmake \
+        -DGPU_MODE=CPU_ONLY \
+        -DBUILD_PYTHON=ON \
+        .. && \
+    make -j`nproc` && \
+    cd .. && \
+    rm -rf 3rdparty .git
 
 # Copy script with environment variable for source at container start
 COPY openpose_env_nvcaffe /.openpose_env

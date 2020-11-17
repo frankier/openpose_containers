@@ -1,8 +1,15 @@
+diff --git a/3rdparty/caffe b/3rdparty/caffe
+index b5ede488..b6712cea 160000
+--- a/3rdparty/caffe
++++ b/3rdparty/caffe
+@@ -1 +1 @@
+-Subproject commit b5ede488952e40861e84e51a9f9fd8fe2395cc8a
++Subproject commit b6712cead68809ee55572286177b4acb3c7e3604-dirty
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6d853c94..05601390 100644
+index 2328e66b..7fb65acc 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -757,13 +757,22 @@ if (UNIX OR APPLE)
+@@ -755,13 +755,22 @@ if (UNIX OR APPLE)
            #  "${MLSL_PATH}/intel64/lib/*"
            #  )
            #file(COPY ${MLSL_SO} DESTINATION ${CMAKE_BINARY_DIR}/caffe)
@@ -31,4 +38,4 @@ index 6d853c94..05601390 100644
 +          endif()
          else (USE_MKL)
            # execute_process(COMMAND git checkout master WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
-           execute_process(COMMAND git checkout c95002f WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
+           execute_process(COMMAND git checkout 1807aad WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)

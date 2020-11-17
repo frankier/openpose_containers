@@ -16,8 +16,9 @@ It currently has two bases:
   * CUDA 10.2
   * Python 3.7 (upgraded version from universe)
   * OpenCV 3.4.1 (upgraded version from PPA)
- 2. `focal`: Based upon the `nvidia/cuda:11.1-devel-ubuntu20.04` image. It
-    compiles NVCaffe with patches to make it compile in this newer environment. It has the following versions:
+ 2. `focal`: Based upon the `ubuntu:focal` image. It compiles NVCaffe with
+    patches to make it compile in this newer environment. It has the following
+    versions:
   * CUDA 10.2
   * Python 3.8 (default)
   * OpenCV 4.2.0 (default)

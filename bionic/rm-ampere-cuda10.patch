@@ -1,10 +1,22 @@
 diff --git a/3rdparty/caffe b/3rdparty/caffe
-index b5ede488..b6712cea 160000
 --- a/3rdparty/caffe
 +++ b/3rdparty/caffe
 @@ -1 +1 @@
 -Subproject commit b5ede488952e40861e84e51a9f9fd8fe2395cc8a
-+Subproject commit b6712cead68809ee55572286177b4acb3c7e3604-dirty
++Subproject commit b5ede488952e40861e84e51a9f9fd8fe2395cc8a-dirty
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2328e66b..ad4fe5a1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -728,7 +728,7 @@ if (UNIX OR APPLE)
+       set(CAFFE_CPU_ONLY OFF)
+       if (${GPU_MODE} MATCHES "CUDA")
+         # execute_process(COMMAND git checkout master WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
+-        execute_process(COMMAND git checkout 1807aad WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
++        execute_process(COMMAND git checkout b846ff9 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
+       elseif (${GPU_MODE} MATCHES "CPU_ONLY")
+         if (USE_MKL)
+           #execute_process(COMMAND git checkout intel WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/3rdparty/caffe)
 diff --git a/cmake/Cuda.cmake b/cmake/Cuda.cmake
 index 404cda24..61de0b00 100644
 --- a/cmake/Cuda.cmake

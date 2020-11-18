@@ -9,6 +9,7 @@ RUN cd /opt && \
     git submodule update --recursive --remote && \
     git describe --always > .git-describe
 
+
 # Apply patches
 COPY rm-ampere-cuda10.patch /opt/openpose/
 

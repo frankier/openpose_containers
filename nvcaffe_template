@@ -19,3 +19,6 @@ RUN $BUILD_GPU
 
 # Copy script with environment variable for source at container start
 COPY openpose_env_nvcaffe /.openpose_env
+COPY openpose_entrypoint /.openpose_entrypoint
+
+ENTRYPOINT ["/usr/bin/bash", "/.openpose_entrypoint"]

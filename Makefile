@@ -34,6 +34,7 @@ bionic/.assets: \
 	  patches/rm-ampere-cuda10.patch \
 	  scripts/openpose_env_multi \
 	  scripts/openpose_env_nvcaffe \
+	  scripts/openpose_entrypoint \
 	  scripts/cudacap.cxx
 	cp $^ bionic/ && touch $@
 
@@ -44,6 +45,7 @@ focal/.assets: \
 	  scripts/openpose_env_multi \
 	  scripts/openpose_env_nvcaffe \
 	  scripts/openpose_env_cpu \
+	  scripts/openpose_entrypoint \
 	  scripts/cudacap.cxx
 	cp $^ focal/ && touch $@
 

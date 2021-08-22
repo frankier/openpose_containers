@@ -9,7 +9,6 @@ RUN cd /opt && \
     git submodule update --recursive --remote && \
     git describe --always > .git-describe
 
-
 # Apply patches
 COPY rm-ampere-cuda10.patch /opt/openpose/
 
@@ -43,3 +42,6 @@ RUN mkdir -p /opt/openpose/build && \
 
 # Copy script with environment variable for source at container start
 COPY openpose_env_nvcaffe /.openpose_env
+COPY openpose_entrypoint /.openpose_entrypoint
+
+ENTRYPOINT ["/usr/bin/bash", "/.openpose_entrypoint"]

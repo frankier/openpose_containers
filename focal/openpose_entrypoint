@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+. /.openpose_env
+exec $OPENPOSE_BIN $@

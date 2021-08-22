@@ -10,12 +10,7 @@ all: \
 	bionic/Dockerfile.multi \
 	focal/Dockerfile.nvcaffe \
 	focal/Dockerfile.cpu \
-	focal/Dockerfile.multi \
-	bionic/Singularity.bionic_nvcaffe \
-	bionic/Singularity.bionic_multi \
-	focal/Singularity.focal_nvcaffe \
-	focal/Singularity.focal_cpu \
-	focal/Singularity.focal_multi
+	focal/Dockerfile.multi
 
 clean:
 	rm -f \
@@ -30,12 +25,7 @@ clean:
 	  bionic/Dockerfile.nvcaffe \
 	  bionic/Dockerfile.multi \
 	  focal/Dockerfile.nvcaffe \
-	  focal/Dockerfile.multi \
-	  bionic/Singularity.bionic_nvcaffe \
-	  bionic/Singularity.bionic_multi \
-	  focal/Singularity.focal_nvcaffe \
-	  focal/Singularity.focal_cpu \
-	  focal/Singularity.focal_multi
+	  focal/Dockerfile.multi
 
 bionic/.assets: \
 	  patches/CMakeLists.patch \
@@ -86,28 +76,3 @@ focal/Dockerfile.multi: multi_template focal/.assets snippets/*
 	  TAG=focal_base \
 	  OP_PATCHES="rm-ampere-cuda10.patch respect_mkldnnroot.patch" \
 	  envsubst > $@
-
-bionic/Singularity.bionic_nvcaffe: singularity_template
-	cat $< | \
-	  TAG=bionic_nvcaffe \
-	  envsubst '$$TAG' > $@
-
-bionic/Singularity.bionic_multi: singularity_template
-	cat $< | \
-	  TAG=bionic_multi \
-	  envsubst '$$TAG' > $@
-
-focal/Singularity.focal_nvcaffe: singularity_template
-	cat $< | \
-	  TAG=focal_nvcaffe \
-	  envsubst '$$TAG' > $@
-
-focal/Singularity.focal_cpu: singularity_template
-	cat $< | \
-	  TAG=focal_cpu \
-	  envsubst '$$TAG' > $@
-
-focal/Singularity.focal_multi: singularity_template
-	cat $< | \
-	  TAG=focal_multi \
-	  envsubst '$$TAG' > $@

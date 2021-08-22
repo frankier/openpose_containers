@@ -2,13 +2,9 @@
 <a href="https://hub.docker.com/r/frankierr/openpose_containers/builds">
   <img alt="DockerHub hosted images" src="https://img.shields.io/docker/pulls/frankierr/openpose_containers?style=flat" />
 </a>
-<a href="https://singularity-hub.org/collections/4910">
-  <img alt="SingularityHub hosted images" src="https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg" />
-</a>
 </p>
 
-This repository builds Docker and Singularity images for OpenPose compiled with
-NVCaffe.
+This repository builds Docker images for OpenPose compiled with NVCaffe.
 
 It currently has two bases:
 
@@ -31,8 +27,6 @@ Upon these bases OpenPose there are multiple images built. For example, for
  * `focal_multi`: Contains both of the above versions, as well as normal GPU
    Caffe. The entrypoint script automatically configures the correct version of
    OpenPose.
-
-Upon these Docker bases, Singularity images are runtime are made available.
 
 The multi OpenPose container concept is based upon [this blog post by Peter
 Uhrig](peter-uhrig.de/openpose-with-nvcaffe-in-a-singularity-container-with-support-for-multiple-architectures/).

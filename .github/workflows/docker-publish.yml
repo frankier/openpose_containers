@@ -5,17 +5,12 @@ on:
   pull_request:
 
 jobs:
-  build_publish_containers:
-    runs-on: ubuntu-latest
-
+  build_publish_bionic_nvcaffe:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Checkout submodules
-        uses: textbook/git-checkout-submodule-action@master
-
-      - name: Build/push bionic_nvcaffe
+      - name: Build/push
         uses: whoan/docker-build-with-cache-action@v5
         with:
           registry: ghcr.io
@@ -24,6 +19,11 @@ jobs:
           dockerfile: Dockerfile.nvcaffe
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+  build_publish_bionic_multi:
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
       - name: Build/push bionic_multi
         uses: whoan/docker-build-with-cache-action@v5
@@ -35,6 +35,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+  build_publish_focal_nvcaffe:
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
       - name: Build/push focal_nvcaffe
         uses: whoan/docker-build-with-cache-action@v5
         with:
@@ -45,6 +50,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+  build_publish_focal_multi:
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
       - name: Build/push focal_multi
         uses: whoan/docker-build-with-cache-action@v5
         with:
@@ -54,6 +64,11 @@ jobs:
           dockerfile: Dockerfile.multi
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+  build_publish_focal_cpu:
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
       - name: Build/push focal_cpu
         uses: whoan/docker-build-with-cache-action@v5

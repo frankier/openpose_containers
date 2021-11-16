@@ -1,10 +1,4 @@
-<p align="center">
-<a href="https://hub.docker.com/r/frankierr/openpose_containers/builds">
-  <img alt="DockerHub hosted images" src="https://img.shields.io/docker/pulls/frankierr/openpose_containers?style=flat" />
-</a>
-</p>
-
-This repository builds Docker images for OpenPose compiled with NVCaffe.
+This repository builds Docker images for OpenPose compiled with NVCaffe. They have also been tested with Singularity. Check out the different versions in the [Packages](https://github.com/frankier?tab=packages&repo_name=openpose_containers) section.
 
 It currently has two bases:
 
@@ -30,21 +24,3 @@ Upon these bases OpenPose there are multiple images built. For example, for
 
 The multi OpenPose container concept is based upon [this blog post by Peter
 Uhrig](peter-uhrig.de/openpose-with-nvcaffe-in-a-singularity-container-with-support-for-multiple-architectures/).
-
-# Get the images
-
-Get the images from [Docker
-Hub](https://hub.docker.com/r/frankierr/openpose_containers/) or [Singularity
-Hub](https://singularity-hub.org/collections/4910).
-
-# Rebuilding from templates
-
-To rebuild Singularity files:
-1. Directly make your changes to one of the `*_template` files or a file in
-   `snippets`.
-2. Run `make`.
-3. Add and push both all changes generated files so they can
-   be build on Docker and Singularity Hub
-
-For older versions see:
-https://github.com/frankier/gsoc2020/commits/master/openpose_singularity
